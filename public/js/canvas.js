@@ -1,3 +1,9 @@
+var socket = io();
+
+socket.on('connect', () => {
+    console.log('Connected to server');
+});
+
 var canvas = document.getElementById('canvas');
 var canvasContainer = document.getElementById('canvas-container');
 var context = canvas.getContext('2d');
@@ -17,45 +23,66 @@ document.onmouseup = function() {
     mouseIsDown = false;
 }
 
-var engage = (e) => {
+socket.on('clientEngage', (coordinates) => {
     dragging = true;
     
-    context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+    context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
     context.fill();
-    context.moveTo(e.offsetX, e.offsetY);
-}
-var disengage = (e) => { 
-    dragging = false;
-    //console.log('not down!!');
-    context.beginPath();
-}
-var draw = (e) => { 
-    if (dragging) {
-        console.log(e.offsetX, e.offsetY);
+    context.moveTo(coordinates.x, coordinates.y);
+});
 
-        context.lineTo(e.offsetX, e.offsetY); 
+socket.on('clientDisengage', (coordinates) => {
+    console.log('CLIENT DISENGAGE!');
+    dragging = false;
+    context.beginPath();
+});
+
+socket.on('clientDraw', (coordinates) => {
+    if (dragging) {
+        console.log(coordinates.x, coordinates.y);
+
+        context.lineTo(coordinates.x, coordinates.y); 
         context.lineWidth = radius*2; 
         context.stroke();
 
         context.beginPath();
-        context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+        context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
         context.fill();
 
         context.beginPath();
 
-        context.moveTo(e.offsetX, e.offsetY);
+        context.moveTo(coordinates.x, coordinates.y);
     }
-}
-
-canvas.addEventListener('mousedown', engage);
-canvas.addEventListener('mouseup', disengage);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener ('mouseout', () => {
-    disengage();
 });
+
+canvas.addEventListener('mousedown', (e) => {
+    socket.emit('engage', {
+        x: e.offsetX,
+        y: e.offsetY
+    });
+});
+
+canvas.addEventListener('mouseup', () => {
+    socket.emit('disengage');
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    socket.emit('draw', {
+        x: e.offsetX,
+        y: e.offsetY
+    });
+});
+
+canvas.addEventListener ('mouseout', () => {
+    socket.emit('disengage');
+});
+
 canvas.addEventListener ('mouseenter', (e) => {
     console.log('MouseEnter');
     if (mouseIsDown) {
-        engage(e);
+        socket.emit('engage', {
+            x: e.offsetX,
+            y: e.offsetY
+        });
     }
 });
