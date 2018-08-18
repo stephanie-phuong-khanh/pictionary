@@ -1,9 +1,3 @@
-var socket = io();
-
-socket.on('connect', () => {
-    console.log('Connected to server');
-});
-
 var canvas = document.getElementById('canvas');
 var canvasContainer = document.getElementById('canvas-container');
 var context = canvas.getContext('2d');
