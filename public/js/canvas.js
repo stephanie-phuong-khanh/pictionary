@@ -9,11 +9,11 @@ var dragging = false;
 var radius = 1;
 
 document.onmousedown = function() { 
-    console.log('THIS MOUSE IS DOWN');
+    //console.log('THIS MOUSE IS DOWN');
     mouseIsDown = true;
 }
 document.onmouseup = function() {
-    console.log('not down!!');
+    //console.log('not down!!');
     mouseIsDown = false;
 }
 
@@ -26,7 +26,7 @@ socket.on('clientEngage', (coordinates) => {
 });
 
 socket.on('clientDisengage', (coordinates) => {
-    console.log('CLIENT DISENGAGE!');
+    //console.log('CLIENT DISENGAGE!');
     dragging = false;
     context.beginPath();
 });
@@ -72,7 +72,7 @@ canvas.addEventListener ('mouseout', () => {
 });
 
 canvas.addEventListener ('mouseenter', (e) => {
-    console.log('MouseEnter');
+    //console.log('MouseEnter');
     if (mouseIsDown) {
         socket.emit('engage', {
             x: e.offsetX,

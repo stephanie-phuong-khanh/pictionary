@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Pictionary</title>
+      <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'> 
+      <link rel="stylesheet" href="/css/style.css"/>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+   </head>
+
+   <body>
+        <div class='center-align-outside'>
+            <div class='center-align'>
+                <div class='center-align-inside'>
+                    <form method='post' action='/join-game'>
+                        <div class='center-button'>
+                            <label>Name: </label>
+                            <%if(typeof errorName == "undefined"){%>
+                                <% } else { %>
+                                <div class='error-message'><%= errorName %></div>
+                            <%}%>
+                            <input type='text' name='name' id='name' autofocus/>
+                        </div>
+                        <div class='center-button'>
+                            <label>Code: </label>
+                            <%if(typeof errorCode == "undefined"){%>
+                                <% } else { %>
+                                    <div class='error-message'><%= errorCode %></div>
+                            <%}%>
+                            <input type='text' name='codeNumber' id='codeNumber' autofocus/>
+                        </div>
+                        <div class='center-button'>
+                            <button>Join</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   </body>
+</html>
+

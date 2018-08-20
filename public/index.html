@@ -8,12 +8,23 @@
    </head>
 
    <body>
-        <div>Pictionary</div>
-        <div id='canvas-container'>
-            <canvas id="canvas"></canvas>
+        <div class='center-align-outside'>
+            <div class='center-align'>
+                <div class='game-title center-button'>
+                    Pictionary
+                </div>
+                <div class='center-button'>
+                    <form method='get' action='/new-game'>
+                        <button>New Game</button>
+                    </form>
+                </div>
+                <div class='center-button'>
+                    <form method='get' action='/join-game'>
+                        <button>Join Game</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <script src="socket.io/socket.io.js"></script>
-        <script src="/js/client.js"></script>
-        <script src="/js/canvas.js"></script>
    </body>
 </html>
+
