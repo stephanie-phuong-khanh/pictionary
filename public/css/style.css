@@ -89,7 +89,7 @@ button:focus {outline:0 !important;}
 
 
 .modal{
-    visibility: visible;
+    visibility: hidden;
     position: fixed;
     z-index:1;
     left: 0;
