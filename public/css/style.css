@@ -89,7 +89,7 @@ button:focus {outline:0 !important;}
 
 
 .modal{
-    visibility: hidden;
+    visibility: visible;
     position: fixed;
     z-index:1;
     left: 0;
@@ -97,7 +97,7 @@ button:focus {outline:0 !important;}
     height: 100%;
     width: 100%;
     /* overflow: auto; */
-    background-color: rgba(8, 8, 8, 0.301);
+    background-color: rgba(8, 8, 8, 0.658);
     display: flex;
     flex-direction: column;
     justify-content: space-around;

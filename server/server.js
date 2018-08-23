@@ -7,8 +7,8 @@ const http = require('http');
 const server = http.createServer(app);
 const socketIO = require('socket.io');
 const io = socketIO(server);
-const {Users, Games} = require('./utils/users');
-const {isRealString} = require('./utils/validation');
+const {Users, Games, shuffle} = require('./utils/users');
+const {isRealString, isRealCode} = require('./utils/validation');
 const {tokenGenerate} = require('./utils/number-code');
 
 const publicPath = path.join(__dirname, '../public');
@@ -19,11 +19,14 @@ app.set('view engine', 'html');
 app.set('views', __dirname);
 const port = process.env.PORT || 3000;
 
-var gamesInPlay = new Games();
-var gamesOnQueue = new Games();
+var games = new Games();
 var users = new Users();
 
 app.get('/new-game', (req, res) => {
+    var newToken = tokenGenerate();
+    while (users.getUserByRoom(newToken) !== undefined) {
+        newToken = tokenGenerate();
+    }
     res.render('./../public/new-game.html', {
         codeNumber: tokenGenerate()
     });
@@ -74,36 +77,51 @@ app.post('/join-game', (req, res) => {
 io.on('connection', function (socket) {
     console.log('User connected');
 
-    socket.on('join', function(params) {
+    socket.on('join', (params, callback) => {
         console.log('Joined game', params.game);
+        if (!isRealString(params.name) || !isRealCode(params.game)) {
+            return callback('Invalid name and/or game code');
+        }
 
         socket.join(params.game);  //Join room by string value
         //socket.leave('The Office Fans');  //kicks you out of room
         //users.removeUser(socket.id); //removes from any previous room the user was in
+        if (users.getUserList(params.game).length > 4) {
+            callback('Room is full');
+        }
+        
         if (users.getUserByRoom(params.game) === undefined) {
-            console.log('NEW GAME');
+            //console.log('NEW GAME');
+            games.newGame(params.game, socket.id);
+        } else {
+            games.addPlayer(params.game, socket.id);
         }
         users.addUser(socket.id, params.name, params.game);
-        
-        console.log(users);
+        callback();   //player successfully added
+        console.log(users, games);     //debuggging purposes
     });
 
     socket.on('engage', function (coordinates) {
-        io.emit('clientEngage', (coordinates));
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('clientEngage', (coordinates));
     });
 
     socket.on('disengage', function () {
-        io.emit('clientDisengage');
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('clientDisengage');
     });
 
     socket.on('draw', function (coordinates) {
-        io.emit('clientDraw', (coordinates));
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('clientDraw', (coordinates));
     });
 
     socket.on('disconnect', function () {
         console.log('User disconnected');
+        var user = users.getUser(socket.id);
+        games.removeUserFromGame(user.room, socket.id);
         users.removeUser(socket.id);
-        console.log(users);
+        console.log(users, games); //debugging purposes
     });
 });
 
