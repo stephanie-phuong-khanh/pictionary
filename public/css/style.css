@@ -110,6 +110,11 @@ button:focus {
     margin-bottom: 15px;
 }
 
+
+
+
+
+
 .modal{
     position: fixed;
     z-index:1;
@@ -238,8 +243,13 @@ button:focus {
     height: 100%;
 }
 .column-3 {
+    display: block;
+    text-align: center;
     width: 20%;
     height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: blue 1px dotted;
 }
 .pictionary-title {
     color:#122940;
@@ -255,7 +265,7 @@ button:focus {
     background-color: white;
     margin: 0 auto;
     width: 350px;
-    height: 370px;
+    height: 400px;
     text-align: center;
 }
 #canvas {
@@ -278,6 +288,8 @@ button:focus {
     background-color: #F04A50;
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .time-text {
     font-size: 10px;
@@ -290,4 +302,30 @@ button:focus {
     font-weight: 500;
     letter-spacing: 1px;
     color: white;
+}
+.score-box {
+    display: flex;
+    flex-direction: row;
+    width: 105px;
+    font-size: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.myScore {
+    width: 50%;
+    background-color:#122940;
+    color: #E7BB2A;
+    display: block;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.theirScore {
+    width: 50%;
+    background-color: #E7BB2A;
+    color: #122940;
+    display: block;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }

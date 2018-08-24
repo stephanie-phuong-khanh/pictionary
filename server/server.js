@@ -132,8 +132,7 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
         console.log('User disconnected');
-        var user = users.getUser(socket.id);
-        games.removeUserFromGame(user.room, socket.id);
+        games.removeUserFromGame(users.getUser(socket.id).room, socket.id); //BUG
         users.removeUser(socket.id);
         console.log(users, games); //debugging purposes
     });
