@@ -10,7 +10,7 @@
    <body>
         <div id="modal" class="modal">
             <div id='lobby' class='lobby'>
-                <div class='lobby-text'>Waiting for all players to join...</div>
+                <div class='lobby-text' id='lobby-text'>WAITING FOR ALL PLAYERS TO JOIN...</div>
                 <div class='lobby-inside'>
                     <div class='lobby-box'>
                         <div class='player-avatar' id='avatar1'><img src='./../images/chick.png'></div>
@@ -25,12 +25,31 @@
                 </div>
             </div>
         </div>
+        
         <div class='page' id='page'>
-            <div class='pictionary-title'>Pictionary</div>
-            <div id='canvas-container'>
-                <canvas id="canvas"></canvas>
+            
+            <div class='middle-div'>
+                <div class='column-1' style='border: yellow 1px solid'>
+
+                </div>
+                <div class='column-2' style='border: yellow 1px solid'>
+                    <div class='pictionary-title'>PICTIONARY</div>
+                    <div id='canvas-container'>
+                        <canvas id="canvas"></canvas>
+                    </div>
+                    <div class='turn-text'>your turn to <b>draw</b>!</div>
+                </div>
+                <div class='column-3' style='border: yellow 1px solid'>
+                    <div class='time-box'> 
+                        <div class='time' id='time'>30</div>
+                        <div class='time-text'>secs<br>left</div>
+                    </div>
+                </div>
+                
+                
             </div>
         </div>
+        
         
         <script src="socket.io/socket.io.js"></script>
         <script src='/js/libs/jquery-3.3.1.min.js'></script>
@@ -38,5 +57,23 @@
         <script src='/js/libs/mustache.js'></script>
         <script src="/js/client.js"></script>
         <script src="/js/canvas.js"></script>
+        <script>
+            function startTimer(duration, display) {
+                var timer = duration, minutes, seconds;
+                setInterval(function () {
+                    seconds = parseInt(timer % 60, 10);
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+                    display.textContent = seconds;
+                    if (--timer < 0) {
+                        timer = duration;
+                    }
+                }, 1000);
+            }
+            window.onload = function () {
+                var thirtySeconds = 30,
+                display = document.querySelector('#time');
+                startTimer(thirtySeconds, display);
+            };
+        </script>
    </body>
 </html>

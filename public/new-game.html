@@ -8,30 +8,33 @@
    </head>
 
    <body>
-        <div class='center-align-outside'> 
-            <div class='center-align'>
-                <div class='center-align-inside'>
+       <div class='new-game-page'>
+            <div class='center-align-outside'> 
+                <div class='center-align'>
+                    <div class='new-game-game-title'>NEW GAME</div>
                     <form method='post' action='/new-game'>
-                        <div>
+                        <div class='entry-button'>
                             <label>Name: </label><br>
                             <%if(typeof error == "undefined"){%>
                             <% } else { %>
                                 <div class='error-message'><%= error %></div>
                             <%}%>
-                            <input type='text' name='name' autofocus/>
+                            <input type='text' name='name' style='width: 200px; height:35px' autofocus/>
                         </div>
-                        <div class='codeContainer'>
-                            <div id='codeLabel'>
-                                Code:
-                            </div>
-                            <div id='codeNum'>
-                                <%= codeNumber %>
+                        <div class='center'>
+                            <div class='entry-button codeContainer'>
+                                <div class='codeLabel' id='codeLabel'>
+                                     Code:
+                                 </div>
+                                <div class='codeNum' id='codeNum'>
+                                    <%= codeNumber %>
+                                </div>
                             </div>
                         </div>
-                        <div class='center-button' style='display:none'>
+                        <div class='entry-button' style='display:none'>
                             <input type='text' name='codeNumber' id='code'/>
                         </div>                      
-                        <div class='center-button'>
+                        <div class='new-game entry-button'>
                             <button onClick="fillCodeNumber()">Join</button>
                         </div>
                     </form>

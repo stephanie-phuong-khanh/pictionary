@@ -8,32 +8,33 @@
    </head>
 
    <body>
+        <div class='join-game-page'>
         <div class='center-align-outside'>
             <div class='center-align'>
-                <div class='center-align-inside'>
+                <div class='new-game-game-title'>JOIN GAME</div>
                     <form method='post' action='/join-game'>
-                        <div class='center-button'>
-                            <label>Name: </label>
+                        <div class='join-game entry-button'>
+                            <label>Name: </label><br>
                             <%if(typeof errorName == "undefined"){%>
                                 <% } else { %>
                                 <div class='error-message'><%= errorName %></div>
                             <%}%>
-                            <input type='text' name='name' id='name' autofocus/>
+                            <input type='text' name='name' id='name' style='width: 200px; height:35px' autofocus/>
                         </div>
-                        <div class='center-button'>
-                            <label>Code: </label>
+                        <div class='join-game entry-button'>
+                            <label>Code: </label><br>
                             <%if(typeof errorCode == "undefined"){%>
                                 <% } else { %>
                                     <div class='error-message'><%= errorCode %></div>
                             <%}%>
-                            <input type='text' name='codeNumber' id='codeNumber' autofocus/>
+                            <input type='text' name='codeNumber' id='codeNumber' style='width: 200px; height:35px' autofocus/>
                         </div>
-                        <div class='center-button'>
+                        <div class='entry-button'>
                             <button>Join</button>
                         </div>
                     </form>
-                </div>
             </div>
+        </div>
         </div>
    </body>
 </html>

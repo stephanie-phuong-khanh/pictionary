@@ -20,7 +20,7 @@ document.onmouseup = function() {
 socket.on('clientEngage', (coordinates) => {
     dragging = true;
     context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
-    context.fillStyle = "white";
+    context.fillStyle = "rgb(49, 26, 0)";
     context.fill();
     context.moveTo(coordinates.x, coordinates.y);
 });
@@ -37,12 +37,12 @@ socket.on('clientDraw', (coordinates) => {
 
         context.lineTo(coordinates.x, coordinates.y); 
         context.lineWidth = radius*2; 
-        context.strokeStyle = "white";
+        context.strokeStyle = "rgb(49, 26, 0)";
         context.stroke();
 
         context.beginPath();
         context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
-        context.fillStyle = "white";
+        context.fillStyle = "rgb(49, 26, 0)";
         context.fill();
 
         context.beginPath();

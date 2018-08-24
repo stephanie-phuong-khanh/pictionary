@@ -23,6 +23,7 @@ socket.on('playerJoined', function(numberOfPlayers) {
 document.addEventListener('makeOpaque', function () {
     console.log('OPAQUE');
     document.getElementById('close-modal').style.opacity = '1';
+    document.getElementById('lobby-text').innerHTML = 'READY TO START GAME!';
     gameReady = true;
 });
 socket.on('allPlayersJoined', function () {
@@ -33,7 +34,7 @@ socket.on('allPlayersJoined', function () {
 document.getElementById('close-modal').addEventListener('click', function () {
     if (gameReady)
     {
-        document.getElementById('modal').style.visibility = 'hidden';
+        document.getElementById('modal').style.display = 'none';
         jQuery('.page').css({
             'filter': 'blur(0px)',
             '-webkit-filter': 'blur(0px)',
