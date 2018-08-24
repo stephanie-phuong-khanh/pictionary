@@ -8,6 +8,14 @@
     height: 100%;
 }
 
+.page {
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+}
+
 .game-title {
     font-size: 25px;
 }
@@ -76,20 +84,20 @@ button:focus {outline:0 !important;}
 }
 
 #canvas-container {
-    border: blue 1px solid;
+    border: rgb(160, 73, 16) 3px solid;
+    background-color: rgb(1, 80, 1);
+    border-radius: 10px;
     margin: 0 auto;
     width: 25em;
     height: 25em;
     text-align: center;
 }
 #canvas {
-    border: red 1px solid;
     margin: 0 auto;
 }
 
 
 .modal{
-    visibility: visible;
     position: fixed;
     z-index:1;
     left: 0;
@@ -97,7 +105,7 @@ button:focus {outline:0 !important;}
     height: 100%;
     width: 100%;
     /* overflow: auto; */
-    background-color: rgba(8, 8, 8, 0.658);
+    background-color: rgba(8, 8, 8, 0.336);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -105,7 +113,7 @@ button:focus {outline:0 !important;}
 
 .lobby {
     width: 100%;
-    height: 300px;
+    height: auto;
     margin: auto auto;
     background-color: rgb(53, 3, 119);
     display: flex;
@@ -115,58 +123,65 @@ button:focus {outline:0 !important;}
 
 .lobby-inside {
     width: 100%;
-    height: 150px;
+    height: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.lobby-text {
-    width: 50%;
-    /* border: white 1px solid; */
-    display: block;
-    text-align: center;
+.lobby-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     color: white;
     font-family: futura;
+    margin: auto 10%;
+    /* border: 1px white dotted; */
 }
-  
-  /* .modal-content{
-    background-color:#f4f4f4;
-    margin: 20% auto;
-    width:70%;
-    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
-    animation-name:modalopen;
-    animation-duration:1s;
-  }
-  
-  .modal-header h2, .modal-footer h3{
-    margin:0;
-  }
-  
-  .modal-header{
-    background:coral;
-    padding:15px;
-    color:#fff;
-  }
-  
-  .modal-body{
-    padding:10px 20px;
-  }
-  
-  .modal-footer{
-    background:coral;
-    padding:10px;
-    color:#fff;
+
+.lobby-text {
     text-align: center;
+    color: white;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.player-avatar img{   
+    height: 150px;
+}
+
+.player-avatar {
+    margin-top: 30px;
+    line-height: 75px;
+    -webkit-animation: bounce .3s infinite alternate;
+    -moz-animation: bounce .3s infinite alternate;
+    animation: bounce .3s infinite alternate;
   }
-  
-  .closeBtn{
-    color:#ccc;
-    float: right;
-    font-size:30px;
-    color:#fff;
+  @-webkit-keyframes bounce {
+    to { -webkit-transform: scale(1.2); }
   }
-  @keyframes modalopen{
-    from{ opacity: 0}
-    to {opacity: 1}
-  } */
+  @-moz-keyframes bounce {
+    to { -moz-transform: scale(1.2); }
+  }
+  @keyframes bounce {
+    to { transform: scale(1.2); }
+  }
+
+.outside-close-modal {
+    display: block;
+    width: 100%;
+}
+
+.close-modal {
+    opacity: 0.2;
+    border-radius: 5px;
+    padding: 5px 5px;
+    background-color: white;
+    width: 100px;
+    text-align: center;
+    color: red;
+    margin: 0px 50px 20px auto;
+}

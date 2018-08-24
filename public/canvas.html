@@ -10,34 +10,32 @@
    <body>
         <div id="modal" class="modal">
             <div id='lobby' class='lobby'>
+                <div class='lobby-text'>Waiting for all players to join...</div>
                 <div class='lobby-inside'>
-                    <div class='lobby-text'>
-                        <div class='player-text'>Player 1</div>
-                        <div class='player-name'>Jen</div>
+                    <div class='lobby-box'>
+                        <div class='player-avatar' id='avatar1'><img src='./../images/chick.png'></div>
+                        <div class='player-avatar' id='avatar2'><img src='./../images/fox.png'></div>
+                        <div class='player-avatar' id='avatar3'><img src='./../images/koala.png'></div>
+                        <div class='player-avatar' id='avatar4'><img src='./../images/pig.png'></div>
                     </div>
-                    <div class='lobby-text'>
-                        <div class='player-text'>Player 2</div>
-                        <div class='player-name'>Steph</div>
-                    </div>
-                    <div class='lobby-text'>
-                        <div class='player-text'>Player 3</div> 
-                        <div class='player-name'>Alex</div>
-                    </div>
-                    <div class='lobby-text'>
-                        <div class='player-text'>Player 4</div>
-                        <div class='player-name'>John</div>
-                    </div>
+                </div>
+                <div class='outside-close-modal'>
+                        <div class='close-modal' id='close-modal'>Start Game!</div>
+                </div>
                 </div>
             </div>
         </div>
-
-        <div class='pictionary-title'>Pictionary</div>
-        <div id='canvas-container'>
-            <canvas id="canvas"></canvas>
+        <div class='page' id='page'>
+            <div class='pictionary-title'>Pictionary</div>
+            <div id='canvas-container'>
+                <canvas id="canvas"></canvas>
+            </div>
         </div>
+        
         <script src="socket.io/socket.io.js"></script>
         <script src='/js/libs/jquery-3.3.1.min.js'></script>
         <script src="/js/libs/deparam.js"></script>
+        <script src='/js/libs/mustache.js'></script>
         <script src="/js/client.js"></script>
         <script src="/js/canvas.js"></script>
    </body>

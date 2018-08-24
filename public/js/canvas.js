@@ -19,8 +19,8 @@ document.onmouseup = function() {
 
 socket.on('clientEngage', (coordinates) => {
     dragging = true;
-    
     context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
+    context.fillStyle = "white";
     context.fill();
     context.moveTo(coordinates.x, coordinates.y);
 });
@@ -37,10 +37,12 @@ socket.on('clientDraw', (coordinates) => {
 
         context.lineTo(coordinates.x, coordinates.y); 
         context.lineWidth = radius*2; 
+        context.strokeStyle = "white";
         context.stroke();
 
         context.beginPath();
         context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
+        context.fillStyle = "white";
         context.fill();
 
         context.beginPath();

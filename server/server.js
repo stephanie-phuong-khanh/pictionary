@@ -1,6 +1,7 @@
 const path = require('path');
 const bodyParser = require('body-parser');
 const hbs = require ('express-handlebars');
+const Mustache = require('mustache');
 const express = require('express');
 const app = express(); 
 const http = require('http'); 
@@ -10,6 +11,7 @@ const io = socketIO(server);
 const {Users, Games, shuffle} = require('./utils/users');
 const {isRealString, isRealCode} = require('./utils/validation');
 const {tokenGenerate} = require('./utils/number-code');
+
 
 const publicPath = path.join(__dirname, '../public');
 app.use(express.static(publicPath));
@@ -86,7 +88,7 @@ io.on('connection', function (socket) {
         socket.join(params.game);  //Join room by string value
         //socket.leave('The Office Fans');  //kicks you out of room
         //users.removeUser(socket.id); //removes from any previous room the user was in
-        if (users.getUserList(params.game).length > 4) {
+        if (users.getUserList(params.game).length > 3) {
             callback('Room is full');
         }
         
@@ -99,6 +101,18 @@ io.on('connection', function (socket) {
         users.addUser(socket.id, params.name, params.game);
         callback();   //player successfully added
         console.log(users, games);     //debuggging purposes
+
+        // var namesArray = [];
+        // var idsArray = games.getGame(params.game).gamePlayers;
+        // for (i in idsArray) {
+        //     namesArray.push(users.getUser(idsArray[i]).name);
+        // }
+        io.to(params.game).emit('playerJoined', {
+            numberOfPlayers : games.getNumberOfPlayersInGame(params.game)
+        });
+        if (games.getNumberOfPlayersInGame(params.game) === 4) {
+            io.to(params.game).emit('allPlayersJoined');
+        }
     });
 
     socket.on('engage', function (coordinates) {

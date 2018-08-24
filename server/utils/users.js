@@ -45,11 +45,11 @@ class Games {
         return this.returnScore(teamNumber, room);
     }
     getGame (room) { //returns game
-        console.log('GET GAME:', this.games.filter((game) => game.room === room)[0]);
+        //console.log('GET GAME:', this.games.filter((game) => game.room === room)[0]);
         return this.games.filter((game) => game.room === room)[0];
     }
     getNumberOfPlayersInGame (room) {
-        return this.games.getGame(room).gamePlayers.length;
+        return this.getGame(room).gamePlayers.length;
     }
     setTeams (room) {
         var arrBefore = this.getGame(room).gamePlayers;
