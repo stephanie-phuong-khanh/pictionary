@@ -4,6 +4,7 @@
       <title>Pictionary</title>
       <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'> 
       <link rel="stylesheet" href="/css/style.css"/>
+      <link rel="stylesheet" href="/css/loading.css"/>
       <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
    </head>
 
@@ -13,10 +14,10 @@
                 <div class='lobby-text' id='lobby-text'>WAITING FOR ALL PLAYERS TO JOIN...</div>
                 <div class='lobby-inside'>
                     <div class='lobby-box'>
-                        <div class='player-avatar' id='avatar1'><img src='./../images/chick.png'></div>
+                        <!-- <div class='player-avatar' id='avatar1'><img src='./../images/chick.png'></div>
                         <div class='player-avatar' id='avatar2'><img src='./../images/fox.png'></div>
                         <div class='player-avatar' id='avatar3'><img src='./../images/koala.png'></div>
-                        <div class='player-avatar' id='avatar4'><img src='./../images/pig.png'></div>
+                        <div class='player-avatar' id='avatar4'><img src='./../images/pig.png'></div> -->
                     </div>
                 </div>
                 <div class='outside-close-modal'>
@@ -29,15 +30,42 @@
         <div class='page' id='page'>
             
             <div class='middle-div'>
-                <div class='column-1' style='border: yellow 0px solid'>
-
+                <div class='column-1'>
+                    <div class='pic-container'>
+                        <!-- <div class='guessList' id='guessList'>
+                            <ul class='guesses'>
+                                
+                            </ul>
+                        </div> -->
+                        <ol id='guess-list' class='guess-list'></ol>
+                        <script id='guess-template' type='text/template'>
+                            <li class='guess'>
+                                <div class='guess__text'>
+                                    <h4>{{guessText}}</h4>
+                                </div>
+                            </li>
+                        </script>
+ 
+                        <div class='chat__footer'>
+                            <form id='guess-form'>
+                                <input name='guess' type='text' placeholder='Guess here...' autofocus autocomplete="off"/>
+                                <button>Send</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class='column-2' style='border: yellow 0px solid'>
+
+
+
+                <div class='column-2'>
                     <div class='pictionary-title'>PICTIONARY</div>
                     <div id='canvas-container'>
                         <canvas id="canvas"></canvas>
                     </div>
                 </div>
+
+
+
                 <div class='column-3'>
                     <div class='time-box'> 
                         <div class='time' id='time'>30</div>
@@ -45,7 +73,7 @@
                     </div>
                     <div class='turn-text'>
                         your turn<br>to <i>draw:</i>
-                        <br><i><b>potato</b></i>
+                        <br><i><b>blank</b></i>
                     </div>
                     <div class='score-box'>
                         <div class='myScore' id='myScore'>
@@ -55,9 +83,7 @@
                             3<div class='time-text'>them</div>
                         </div>
                     </div>
-                </div>
-                
-                
+                </div>   
             </div>
         </div>
         

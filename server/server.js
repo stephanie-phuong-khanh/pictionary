@@ -80,7 +80,7 @@ io.on('connection', function (socket) {
     console.log('User connected');
 
     socket.on('join', (params, callback) => {
-        console.log('Joined game', params.game);
+        console.log('Attempt to join game', params.game);
         if (!isRealString(params.name) || !isRealCode(params.game)) {
             return callback('Invalid name and/or game code');
         }
@@ -89,18 +89,17 @@ io.on('connection', function (socket) {
         //socket.leave('The Office Fans');  //kicks you out of room
         //users.removeUser(socket.id); //removes from any previous room the user was in
         if (users.getUserList(params.game).length > 3) {
-            callback('Room is full');
+            return callback('Game is full.');
         }
         
         if (users.getUserByRoom(params.game) === undefined) {
             //console.log('NEW GAME');
-            games.newGame(params.game, socket.id);
+            games.newGame(params.game, users.getUser(socket.id));
         } else {
-            games.addPlayer(params.game, socket.id);
+            games.addPlayer(params.game, users.getUser(socket.id));
         }
         users.addUser(socket.id, params.name, params.game);
         callback();   //player successfully added
-        console.log(users, games);     //debuggging purposes
 
         // var namesArray = [];
         // var idsArray = games.getGame(params.game).gamePlayers;
@@ -111,8 +110,13 @@ io.on('connection', function (socket) {
             numberOfPlayers : games.getNumberOfPlayersInGame(params.game)
         });
         if (games.getNumberOfPlayersInGame(params.game) === 4) {
-            io.to(params.game).emit('allPlayersJoined');
+            io.to(params.game).emit('allPlayersJoined', {
+                //return actual (1)game object and (2)array of names
+                gameObject: games.getGame(params.game)
+            });
         }
+        console.log(users, games);     //debuggging purposes
+        console.log('Successfully joinned game', params.game);
     });
 
     socket.on('engage', function (coordinates) {
@@ -130,9 +134,19 @@ io.on('connection', function (socket) {
         io.to(user.room).emit('clientDraw', (coordinates));
     });
 
+    socket.on('createGuess', (guess) => {
+        console.log('Guess on server:', guess.guess);
+        var user = users.getUser(socket.id);
+        if (user) {
+            io.to(user.room).emit('distributeGuess', { guessString: guess.guess });
+        }
+    });
+
     socket.on('disconnect', function () {
         console.log('User disconnected');
-        games.removeUserFromGame(users.getUser(socket.id).room, socket.id); //BUG
+        if (users.getUser(socket.id)) {
+            games.removeUserFromGame(users.getUser(socket.id).room, socket.id); //BUG
+        }
         users.removeUser(socket.id);
         console.log(users, games); //debugging purposes
     });

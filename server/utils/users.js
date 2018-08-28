@@ -1,3 +1,5 @@
+const {DICTIONARY, Words} = require('./word-gen');
+
 class Games {
     constructor () {
         this.games = [];
@@ -5,7 +7,7 @@ class Games {
     newGame (room, firstPlayer) {
         var game = {
             room,
-            gamePlayers : [],
+            gamePlayers : [],   //player objects
             team1: {
                 member1: undefined,
                 member2: undefined,
@@ -15,7 +17,8 @@ class Games {
                 member1: undefined,
                 member2: undefined, 
                 score: 0
-            }
+            },
+            words: new Words
         };
         game.gamePlayers.push(firstPlayer);
         this.games.push(game);
@@ -28,24 +31,7 @@ class Games {
         } else {return undefined;} //room is full
         return addedPlayer;
     }
-    returnScore (teamNumber, room) {
-        if (teamNumber === 1) {
-            return this.getGame(room).team1.score;
-        } else if (teamNumber === 2) {
-            return this.getGame(room).team2.score;
-        }
-        return -1;
-    }
-    addScore (teamNumber, room) { //1 or 2
-        if (teamNumber === 1) {
-            this.getGame(room).team1.score++;
-        } else if (teamNumber === 2) {
-            this.getGame(room).team2.score++;
-        }
-        return this.returnScore(teamNumber, room);
-    }
     getGame (room) { //returns game
-        //console.log('GET GAME:', this.games.filter((game) => game.room === room)[0]);
         return this.games.filter((game) => game.room === room)[0];
     }
     getNumberOfPlayersInGame (room) {
@@ -58,6 +44,14 @@ class Games {
         this.getGame(room).team1.member2 = arrAfter[1];
         this.getGame(room).team2.member1 = arrAfter[2];
         this.getGame(room).team2.member2 = arrAfter[3];
+    }
+    returnScore (teamNumber, room) {
+        if (teamNumber === 1) {
+            return this.getGame(room).team1.score;
+        } else if (teamNumber === 2) {
+            return this.getGame(room).team2.score;
+        }
+        return -1;
     }
     removeUserFromGame (room, player) { //what if single player leaves tho?
         var game = this.getGame(room); //returns game
@@ -78,6 +72,19 @@ class Games {
             return this.games = this.games.filter((game) => game.room !== room);
         }
         return 0;
+    }
+
+    /*
+    *       GAME PLAY FUNCTIONS
+    */
+
+    addScore (teamNumber, room) { //teamNumber either 1 or 2
+        if (teamNumber === 1) {
+            this.getGame(room).team1.score++;
+        } else if (teamNumber === 2) {
+            this.getGame(room).team2.score++;
+        }
+        return this.returnScore(teamNumber, room);
     }
 }
 
