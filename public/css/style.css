@@ -211,13 +211,13 @@ button:focus {
 /* --------------------- CANVAS --------------------- */
 
 
-
-
 .page {
-    border: rgba(0, 0, 0, 0) 1px dotted;
-    min-height: 100%;
-    min-width: 100%;
-    margin: 0;
+    display: block;
+    border: rgba(235, 4, 215, 0) 2px dotted;
+    height: 100%;
+    width: 100%;
+    margin: 0px 0px;
+    padding: 0px 0px;
     background-color: #23ABB1;
     filter: blur(4px);
     -webkit-filter: blur(4px);
@@ -227,7 +227,7 @@ button:focus {
 }
 .middle-div {
     max-width: 750px;
-    min-height: 100%;
+    height: 100%;
     margin: 0 auto 0 auto;
     display: flex;
     flex-direction: row;
@@ -235,9 +235,10 @@ button:focus {
     border: white 1px dotted;
 }
 .column-1 {
-    border: 1px black dotted;
+    border: 2px rgb(198, 241, 7) dotted;
     width: 30%;
     height: 100%;
+    display: block;
 }
 .column-2 {
     width: 50%;
@@ -337,10 +338,39 @@ button:focus {
 
 /* --------------------- SCROLLABLE GUESS BAR --------------------- */
 
-.pic-container {
-    width: 100%;
-    height: 100%;
+.guess-list {
+    /* border: 2px plum solid; */
+    flex-grow: 1;
     overflow-y: scroll;
-    overflow-x:hidden;
-    background-color: white;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px;
+    list-style: none;
+}
+.guess-form-footer {
+    height: 30px;
+    margin-bottom: 5%;
+    width: 100%;
+    /* border: 2px red dotted; */
+}
+.guess-form-body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%
+}
+.guess-form {
+    height: 20px;
+}
+.guess {
+    max-width: 80%;
+    font-size: 18px;
+}
+.guess-button {
+    font-family: playfair display;
+    text-align: center;
+    height: 25px;
+    width: 30px;
+    margin-top: 0;
+    background:whitesmoke;
+    border: none;
 }

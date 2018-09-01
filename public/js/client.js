@@ -1,12 +1,9 @@
 var socket = io();
 
-var gameReady = false;
 var lobbyNames = [];        //names? more ideal --> array of user objects
-//CLIENT INTELLIGENCE:
-//whole game object? --> gamePlayers array (socket IDs only), names
-//                   --> team1, team2 members, scores
-//Timer? --> better to be handled by server
-//Word library 
+
+var turn = undefined;       //STATE/TURN 
+const turnArray = ['DRAWING', 'NEXT-TO-DRAW', 'GUESSING', 'NEXT-TO-GUESS'];
 
 socket.on('connect', () => {
     console.log('Connected to server');
@@ -25,32 +22,64 @@ socket.on('connect', () => {
 socket.on('playerJoined', function(numberOfPlayers) {
     console.log('Number of current players:', numberOfPlayers);
 });
-
-document.addEventListener('makeOpaque', function () {
-    console.log('OPAQUE');
-    document.getElementById('close-modal').style.opacity = '1';
-    document.getElementById('lobby-text').innerHTML = 'READY TO START GAME!';
-    gameReady = true;
+document.addEventListener('closeModal', function () {
+    console.log('All players joined');
+    //document.getElementById('close-modal').style.opacity = '1';
+    document.getElementById('modal').style.display = 'none';
+    jQuery('.page').css({
+        'filter': 'blur(0px)',
+        '-webkit-filter': 'blur(0px)',
+        '-moz-filter': 'blur(0px)',
+        '-o-filter': 'blur(0px)',
+        '-ms-filter': 'blur(0px)'
+    });
 });
 socket.on('allPlayersJoined', function () {
-    var evt = new CustomEvent('makeOpaque');
-    document.dispatchEvent(evt);
+    document.getElementById('lobby-text').innerHTML = 'READY TO START GAME!';
+    //gameReady = true;
+    setTimeout(() => {
+        var evt = new CustomEvent('closeModal');
+        document.dispatchEvent(evt);
+        console.log('After 3 seconds...');
+    }, 3000);
  });
 
-document.getElementById('close-modal').addEventListener('click', function () {
-    if (gameReady)
-    {
-        document.getElementById('modal').style.display = 'none';
-        jQuery('.page').css({
-            'filter': 'blur(0px)',
-            '-webkit-filter': 'blur(0px)',
-            '-moz-filter': 'blur(0px)',
-            '-o-filter': 'blur(0px)',
-            '-ms-filter': 'blur(0px)'
-        });
-    }
+/* ---------------- TIMER ---------------- */
+
+socket.on('updateTime', function(seconds){
+    //jQuery('#time').append(jQuery('<li>').text(count));
+    display = document.querySelector('#time');
+    //console.log('SECONDS:', seconds);
+    //console.log('TYPE OF SECONDS', typeof(seconds));
+    display.innerHTML =  seconds;
 });
 
+
+
+
+
+
+ socket.on('updateTurn', function(turnArrayIndex) {
+    turn = turnArray[turnArrayIndex];
+ });
+
+// document.getElementById('close-modal').addEventListener('click', function () {
+//     if (gameReady)
+//     {
+//         document.getElementById('modal').style.display = 'none';
+//         jQuery('.page').css({
+//             'filter': 'blur(0px)',
+//             '-webkit-filter': 'blur(0px)',
+//             '-moz-filter': 'blur(0px)',
+//             '-o-filter': 'blur(0px)',
+//             '-ms-filter': 'blur(0px)'
+//         });
+//     }
+// });
+
+
+
+/* ---------------- GUESSING MECHANISM ---------------- */
 
 jQuery('#guess-form').on('submit', (e) => {
     e.preventDefault();
@@ -59,33 +88,29 @@ jQuery('#guess-form').on('submit', (e) => {
     if (typeof guessText === 'string' && guessText.trim().length>0) {
         console.log(guessText);
         socket.emit('createGuess', {
-            guess: guessText //select input
+            guess: guessText
         });
+    } else{ jQuery('input[type=text]').val(''); }
+});
+
+function scrollToBottom() {
+    var messages = jQuery('#guess-list');
+    var newMessage = messages.children('li:last-child');
+    var clientHeight = messages.prop('clientHeight'); //fetch properties
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+    if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
     }
-});
-
-socket.on('distributeGuess', function (guessString) {
-    console.log('Guess:', guessString);
-    //jQuery("#guessList ul").append('<li>guess 1</li>');
+}
+socket.on('distributeGuess', function (guess) {
+    //console.log('Guess:', guessString);
     var template = jQuery('#guess-template').html();
-    var temp = 'test text';
-    var html = Mustache.render(template, { guessText: guessString.guessString });
-    console.log('HTML rendered:', html);
-    console.log('Actual string:', guessString.guessString);
-    console.log('Test text:', temp);
+    var html = Mustache.render(template, { guessText: guess.guess });
     jQuery('#guess-list').append(html);
+    scrollToBottom();
+    jQuery('input[type=text]').val('');
 });
-
-// var template = jQuery('#message-template').html(); //method that returns markup inside HTML template
-//     //adds to browser:
-//     var html = Mustache.render(template, {
-//         text: message.text,
-//         from: message.from,
-//         createdAt: formattedTime
-//     });
-
-//     jQuery('#messages').append(html);
-//     scrollToBottom();
-
-
 

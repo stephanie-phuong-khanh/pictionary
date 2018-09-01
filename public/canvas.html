@@ -20,9 +20,9 @@
                         <div class='player-avatar' id='avatar4'><img src='./../images/pig.png'></div> -->
                     </div>
                 </div>
-                <div class='outside-close-modal'>
+                <!-- <div class='outside-close-modal'>
                         <div class='close-modal' id='close-modal'>Start Game!</div>
-                </div>
+                </div> -->
                 </div>
             </div>
         </div>
@@ -37,21 +37,24 @@
                                 
                             </ul>
                         </div> -->
-                        <ol id='guess-list' class='guess-list'></ol>
+                        <div class='guess-form-body' id='guess-form-body'>
+                            <ol id='guess-list' class='guess-list'></ol>
+                            <div class='guess-form-footer'>
+                                <form id='guess-form' class='guess-form'>
+                                    <input name='guess' class='guess' type='text' placeholder='Guess here...' autofocus autocomplete="off" maxlength="20"/>
+                                    <button class='guess-button'> >> </button>
+                                </form>
+                            </div>
+                        </div>
+
                         <script id='guess-template' type='text/template'>
                             <li class='guess'>
                                 <div class='guess__text'>
-                                    <h4>{{guessText}}</h4>
+                                    <div>{{guessText}}</div>
                                 </div>
                             </li>
                         </script>
- 
-                        <div class='chat__footer'>
-                            <form id='guess-form'>
-                                <input name='guess' type='text' placeholder='Guess here...' autofocus autocomplete="off"/>
-                                <button>Send</button>
-                            </form>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -68,7 +71,7 @@
 
                 <div class='column-3'>
                     <div class='time-box'> 
-                        <div class='time' id='time'>30</div>
+                        <div class='time' id='time'>10</div>
                         <div class='time-text'>secs<br>left</div>
                     </div>
                     <div class='turn-text'>
@@ -94,23 +97,5 @@
         <script src='/js/libs/mustache.js'></script>
         <script src="/js/client.js"></script>
         <script src="/js/canvas.js"></script>
-        <script>
-            function startTimer(duration, display) {
-                var timer = duration, minutes, seconds;
-                setInterval(function () {
-                    seconds = parseInt(timer % 60, 10);
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-                    display.textContent = seconds;
-                    if (--timer < 0) {
-                        timer = duration;
-                    }
-                }, 1000);
-            }
-            window.onload = function () {
-                var thirtySeconds = 30,
-                display = document.querySelector('#time');
-                startTimer(thirtySeconds, display);
-            };
-        </script>
    </body>
 </html>

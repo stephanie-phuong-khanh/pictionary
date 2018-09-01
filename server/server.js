@@ -11,6 +11,7 @@ const io = socketIO(server);
 const {Users, Games, shuffle} = require('./utils/users');
 const {isRealString, isRealCode} = require('./utils/validation');
 const {tokenGenerate} = require('./utils/number-code');
+const {DICTIONARY, Words} = require('./utils/word-gen');
 
 
 const publicPath = path.join(__dirname, '../public');
@@ -110,14 +111,58 @@ io.on('connection', function (socket) {
             numberOfPlayers : games.getNumberOfPlayersInGame(params.game)
         });
         if (games.getNumberOfPlayersInGame(params.game) === 4) {
+            var gameNumber = games.getGame(params.game).room;
+            //console.log('--- GAME NUMBER:', gameNumber);
+            games.setTeams(gameNumber);
             io.to(params.game).emit('allPlayersJoined', {
-                //return actual (1)game object and (2)array of names
+                //return actual game object
                 gameObject: games.getGame(params.game)
             });
-        }
-        console.log(users, games);     //debuggging purposes
-        console.log('Successfully joinned game', params.game);
+            setTimeout(() => {
+                startTimer(params.game);
+            }, 3000);
+        };
+        console.log(users, games);     //debugging purposes
+        console.log('Successfully joined game', params.game);
     });
+    
+    function startTimer(roomID) {
+        console.log('starTimer called on server side');
+        var seconds = 10;
+        var countdown = setInterval(function(){
+            io.to(roomID).emit('updateTime', seconds);
+            seconds--;
+            if (seconds < 0) {
+                //io.to(roomID).emit('updateTime', "Congratulations You WON!!");
+                clearInterval(countdown);
+            }
+        }, 1000);
+    };
+    
+
+    socket.on('emitRound', function () {  //perhaps in a normal function
+        //gets game object from room -> reads turnNumber property
+        var room = '1234'; //TEMP
+        var gameObject = this.games.getGame(room);
+        var playerObjArr = gameObject.gamePlayers;
+        var turn = gameObject.turnNumber;
+        //const turnArray = ['DRAWING', 'NEXT-TO-DRAW', 'GUESSING', 'NEXT-TO-GUESS'];
+        if (playerObjArr.length !== 4) { console.log('ERROR: Player object array does not have 4 players.'); return undefined; }
+        for (var playerCounter=0; playerCounter<playerObjArr.length; playerCounter++) {
+            var shiftedPlayerCounter = (playerCounter + turn) % 4;
+            var playerID = playerObjArr[playerCounter].id;
+            io.to(playerID).emit('updateTurn', shiftedPlayerCounter);
+        }
+        /*TURN MECHANISM
+        *              0               1              2            3
+        *              drawing    next-to-draw     guessing     next-to-guess  
+        *   turn 0:     1.1    ->       2.1              1.2         2.2
+        *   turn 1:     2.2    ->       1.1              2.1         1.2
+        *   turn 2:     1.2    ->       2.2              1.1         2.1
+        *   turn 3:     2.1    ->       1.2              2.2         1.1           
+        */
+    })
+    
 
     socket.on('engage', function (coordinates) {
         var user = users.getUser(socket.id);
@@ -135,17 +180,31 @@ io.on('connection', function (socket) {
     });
 
     socket.on('createGuess', (guess) => {
-        console.log('Guess on server:', guess.guess);
+        var guessObj = guess.guess;
+        var guessString = JSON.parse(JSON.stringify(guessObj));
         var user = users.getUser(socket.id);
+        var game = games.getGame(user.room);
+        game.words.newWordObject();
+        var currentWordObj = game.words.getLatestWord().word;
+        // console.log('Current Word Object:', currentWordObj);
+        // console.log('Guess I typed:', guessString.trim().toLowerCase());
+        if (guessString.trim().toLowerCase() === currentWordObj) {
+            console.log('YOU GUESSED RIGHT');
+        }
         if (user) {
-            io.to(user.room).emit('distributeGuess', { guessString: guess.guess });
+            io.to(user.room).emit('distributeGuess', { guess: guessObj });
         }
     });
 
     socket.on('disconnect', function () {
         console.log('User disconnected');
-        if (users.getUser(socket.id)) {
-            games.removeUserFromGame(users.getUser(socket.id).room, socket.id); //BUG
+        var user = users.getUser(socket.id);
+        if (user) {
+            if (games.getGame(user.room).gamePlayers.length === 1) { 
+                games.deleteGame(user.room);
+            } else {
+                games.removeUserFromGame(user.room, socket.id);
+            }
         }
         users.removeUser(socket.id);
         console.log(users, games); //debugging purposes

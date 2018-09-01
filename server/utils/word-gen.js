@@ -5,8 +5,9 @@ const DICTIONARY = JSON.parse(dictionary);
 class Words {
     constructor () {
         this.indices = [];
+        this.wordArr = [];
     }
-    getWordObject () { //get word that hasn't already been generated
+    newWordObject () { //get word that hasn't already been generated
         for (;;) {
             var randomIndex = Math.floor(Math.random()*DICTIONARY.length);
             var alreadyExisting = this.indices.find(num=>num===randomIndex);
@@ -23,15 +24,20 @@ class Words {
                 }
                 hintWord = setCharAt(hintWord, letterHintIndex, word[letterHintIndex]);
                 console.log(hintWord);
-                return { word, hintWord };
+                var wordObj = { word, hintWord };
+                this.wordArr.push(wordObj);
+                return wordObj ;
             }
         }
         return undefined;
     }
+    getLatestWord () {
+        return this.wordArr[this.wordArr.length-1];
+    }
 }
 
 var words = new Words;
-console.log(words.getWordObject());
+console.log(words.newWordObject());
 
 module.exports = {
     DICTIONARY,

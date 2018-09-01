@@ -18,6 +18,7 @@ class Games {
                 member2: undefined, 
                 score: 0
             },
+            turnNumber: 0,
             words: new Words
         };
         game.gamePlayers.push(firstPlayer);
@@ -38,12 +39,24 @@ class Games {
         return this.getGame(room).gamePlayers.length;
     }
     setTeams (room) {
+        function shuffle (array) {   //helper function
+            var currentIndex = array.length, temporaryValue, randomIndex;
+            while (0 !== currentIndex) {
+              randomIndex = Math.floor(Math.random() * currentIndex);
+              currentIndex -= 1;
+              temporaryValue = array[currentIndex];
+              array[currentIndex] = array[randomIndex];
+              array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
         var arrBefore = this.getGame(room).gamePlayers;
         var arrAfter = shuffle(arrBefore);
         this.getGame(room).team1.member1 = arrAfter[0];
-        this.getGame(room).team1.member2 = arrAfter[1];
-        this.getGame(room).team2.member1 = arrAfter[2];
+        this.getGame(room).team2.member1 = arrAfter[1];
+        this.getGame(room).team1.member2 = arrAfter[2];
         this.getGame(room).team2.member2 = arrAfter[3];
+        this.getGame(room).gamePlayers = arrAfter;      //permanently re-arranges gamePlayers array
     }
     returnScore (teamNumber, room) {
         if (teamNumber === 1) {
@@ -73,10 +86,31 @@ class Games {
         }
         return 0;
     }
-
+    increaseTurn (room) {
+        for (var i=0; i<this.games.length; i++) {
+            if (this.games[i].room === room) { 
+                this.games[i].turn++; 
+                return this.games[i].turn;
+            }
+        }
+        return undefined;
+    }
     /*
     *       GAME PLAY FUNCTIONS
     */
+    newRound (room) {   //pass in room ID
+        
+        if (turnNumber) {
+            turnNumber = 0; //very first turn
+        } else { turnNumber++; }
+        var gameAtHand = this.getGame(room);
+        for (var i=0; i<gameAtHand.gamePlayers.length; i++) {
+            //use turn number:   turnNumber%4
+            if (gameAtHand.gamePlayers[i].turn === 0) { //very first round --> maybe put in newGame function...?
+                //this.getGame(room).gamePlayers[0]
+            }
+        }
+    }
 
     addScore (teamNumber, room) { //teamNumber either 1 or 2
         if (teamNumber === 1) {
@@ -88,17 +122,7 @@ class Games {
     }
 }
 
-var shuffle = (array) => {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-    return array;
-}
+
 
 class Users {
     constructor () {
@@ -109,6 +133,12 @@ class Users {
         this.users.push(user);
         return user;
     }
+    // setTurn (idArg, turnNum) {
+    //     for (var i=0; i<this.users.length; i++) {
+    //         if (this.users[i].id === idArg) { this.users[i].turn = turnNum; return; }
+    //     }
+    //     //this.users.filter((user) => user.id === idArg)[0].turn = turnNum;
+    // }
     removeUser (id) {
         var user = this.getUser(id);
         if (user) {
@@ -132,6 +162,5 @@ class Users {
 
 module.exports = {
     Games,
-    Users,
-    shuffle
+    Users
 };
