@@ -2,6 +2,7 @@ var socket = io();
 
 var lobbyNames = [];  
 var turn = undefined;
+var team = 0;
 const turnArray = ['DRAWING', 'NEXT-TO-GUESS', 'GUESSING', 'NEXT-TO-DRAW'];
 
 socket.on('connect', () => {
@@ -20,13 +21,24 @@ socket.on('connect', () => {
 
 socket.on('errorMessage', function(errorMessage) {
     console.log('errorMessage', errorMessage);
-    //alert(errorMessage);
     window.location.href = '/';
 });
 
 socket.on('finishedGame', function(winner) {
     console.log('Game Finished! Winning team:', winner);
-    window.location.href = '/';
+    setTimeout(function() {
+        if (winner === 0) {
+            var string = encodeURIComponent('tie');
+            window.location.href = '/end-game/?result=tie';
+        } else if (winner === team) {
+            var string = encodeURIComponent('win');
+            window.location.href = '/end-game/?result=win';
+        } else {
+            var string = encodeURIComponent('loss');
+            window.location.href = '/end-game/?result=loss';
+        }
+    }, 3000);
+    // window.location.href = '/';
 });
 
 
@@ -48,8 +60,23 @@ document.addEventListener('closeModal', function () {
 socket.on('allPlayersJoined', function (gameObj) {
     for (var i=0; i<gameObj.gamePlayers.length; i++) {
         lobbyNames.push(gameObj.gamePlayers[i].name);
+        if (gameObj.gamePlayers[i].id === socket.id) {
+            switch (i) {
+                case (0):
+                case (2):
+                    team=1; break;
+                case (1):
+                case (3):
+                    team=2; break;
+            }
+        }
+        //console.log('LOBBY NAME:', lobbyNames[i]);
     }
-    document.getElementById('lobby-text').innerHTML = 'READY TO START GAME';
+    document.querySelector('#team-1-member-1').innerHTML = lobbyNames[0];
+    document.querySelector('#team-2-member-1').innerHTML = lobbyNames[1];
+    document.querySelector('#team-1-member-2').innerHTML = lobbyNames[2];
+    document.querySelector('#team-2-member-2').innerHTML = lobbyNames[3];
+    document.querySelector('#lobby-text').innerHTML = 'READY TO START GAME';
     //gameReady = true;
     setTimeout(() => {
         var evt = new CustomEvent('closeModal');
@@ -62,6 +89,7 @@ socket.on('allPlayersJoined', function (gameObj) {
 
 socket.on('updateTime', function(seconds){
     display = document.querySelector('#time');
+    seconds = ("0" + seconds).slice(-2);
     display.innerHTML =  seconds;
 });
 
@@ -97,29 +125,29 @@ socket.on('updateScore', function(obj){
 
 /* ---------------- TURN-BASED INTERFACE ---------------- */
 
- socket.on('updateTurn', function(turnArrayIndex) {
+ socket.on('updateTurn', function(obj) {
     jQuery("#guess-list").empty();
-    turn = turnArray[turnArrayIndex];
-    console.log(turn);  //for debug
+    turn = turnArray[obj.shiftedPlayerCounter];
+    document.querySelector('#round-box-number').innerHTML = Math.floor(obj.turn/2) + 1;
+    console.log(turn);
+
+    const symbols = ['✎', ' ', '?', ' '];
+    document.querySelector('#team-1-member-1-symbol').innerHTML = symbols[(0+obj.turn)%4];
+    document.querySelector('#team-2-member-1-symbol').innerHTML = symbols[(1+obj.turn)%4];
+    document.querySelector('#team-1-member-2-symbol').innerHTML = symbols[(2+obj.turn)%4];
+    document.querySelector('#team-2-member-2-symbol').innerHTML = symbols[(3+obj.turn)%4];
+
     if (turn === 'DRAWING') {
         jQuery('#guess-form-footer').css("display", "none");
         jQuery('#guess-form-footer-2').css("display", "block");
         jQuery('#guess-form-footer-3').css("display", "none");
-        // document.querySelector('#person-to').innerHTML = 'your turn';
-        // document.querySelector('#action').innerHTML = 'to draw';
     }
-
     if (turn === 'GUESSING') {
-        // document.querySelector('#person-to').innerHTML = 'your turn';
-        // document.querySelector('#action').innerHTML = 'to guess';
         jQuery('#guess-form-footer').css("display", "block");
         jQuery('#guess-form-footer-2').css("display", "none");
         jQuery('#guess-form-footer-3').css("display", "none");
     } 
-
     if (turn === 'NEXT-TO-DRAW' || turn === 'NEXT-TO-GUESS') {
-        // document.querySelector('#person-to').innerHTML = 'word being';
-        // document.querySelector('#action').innerHTML = 'drawn:';
         jQuery('#guess-form-footer').css("display", "none");
         jQuery('#guess-form-footer-2').css("display", "none");
         jQuery('#guess-form-footer-3').css("display", "block");
@@ -165,22 +193,3 @@ socket.on('distributeGuess', function (guessObj) {
     scrollToBottom();
     jQuery('input[type=text]').val('');
 });
-
-
-
-
-
-
-
-
-
-
-
-/*TURN MECHANISM
-        *              0               1              2            3
-        *              drawing    next-to-guess     guessing     next-to-draw  
-        *   turn 0:     1.1    ->       2.1              1.2         2.2
-        *   turn 1:     2.2    ->       1.1              2.1         1.2
-        *   turn 2:     1.2    ->       2.2              1.1         2.1
-        *   turn 3:     2.1    ->       1.2              2.2         1.1           
-        */

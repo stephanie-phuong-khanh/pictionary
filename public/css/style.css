@@ -2,6 +2,14 @@
     font-family: 'Futura Light';
     src: url('./futura/futura-light.ttf');
 }
+@font-face {
+    font-family: 'Futura Light Italic';
+    src: url('./futura/futura-light-italic.ttf');
+}
+@font-face {
+    font-family: 'Futura Italic';
+    src: url('./futura/futura-book-italic.ttf');
+}
 
 * { 
     margin: 0;
@@ -26,6 +34,11 @@
 }
 .join-game-page {
     background-color: #eb5e80;
+    width: 100%;
+    height: 100%;
+}
+.end-game-page {
+    background-color: #4464d4;
     width: 100%;
     height: 100%;
 }
@@ -62,9 +75,6 @@
     border: none;
     background-color: white;
     width: 200px;
-    /* padding-top: 5px;
-    padding-bottom: 5px;
-    width: 8em; */
 }
 button:hover { opacity: .8; }
 button:focus {outline:0 !important;}
@@ -114,6 +124,14 @@ button:focus {
 .join-game {
     margin-bottom: 15px;
 }
+
+.result-text {
+    color: rgb(245, 238, 180);
+    font-size: 28px;
+    letter-spacing: 3.5px;
+}
+
+
 
 
 
@@ -249,7 +267,7 @@ button:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: white 1px dotted;
+    /* border: white 1px dotted; */
 }
 
 
@@ -261,7 +279,7 @@ button:focus {
 .column-2 {
     width: 50%;
     height: 100%;
-    border: 1px rgb(198, 241, 7) dotted;
+    /* border: 1px rgb(198, 241, 7) dotted; */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -269,7 +287,7 @@ button:focus {
 .column-2-inside {
     width: 100%;
     height: 90%;
-    border: 1px rgb(241, 54, 7) dotted;
+    /* border: 1px rgb(241, 54, 7) dotted; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -287,8 +305,8 @@ button:focus {
     /* box-shadow: 0 0 30px 0 rgba(211, 208, 208, 0.541); */
     background-color: white;
     margin: 0 auto 0px auto;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 400px;
     text-align: center;
 }
 #canvas {
@@ -308,7 +326,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 1px rgb(198, 241, 7) dotted;
+    /* border: 1px rgb(198, 241, 7) dotted; */
 }
 .column-1-inside {
     width: 80%;
@@ -481,7 +499,7 @@ button:focus {
     display: block;
     text-align: center;
     color: white;
-    background-color: rgb(212, 6, 6);
+    background-color: rgb(175, 3, 3);
 }
 
 
@@ -578,14 +596,14 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 1px rgb(198, 241, 7) dotted;
+    /* border: 1px rgb(198, 241, 7) dotted; */
 }
 
 .column-3-inside {
     width: 80%;
     height: 90%;
     margin: 0 auto 0 auto;
-    border: 1px rgb(241, 54, 7) dotted;
+    /* border: 1px rgb(241, 54, 7) dotted; */
 }
 .column-3-inside-inside {
     width: 100%;
@@ -593,7 +611,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px rgb(241, 7, 210) dotted;
+    /* border: 1px rgb(241, 7, 210) dotted; */
 }
 
 /* --------------------- time/round --------------------- */
@@ -633,7 +651,8 @@ button:focus {
     font-size: 230%;
     font-weight: bolder;
     letter-spacing: 0px;
-    
+    display: block;
+    text-align: right;
     /* border: red 1px solid; */
 }
 .time-text {
@@ -641,7 +660,8 @@ button:focus {
     font-family: 'Futura Light';
     font-weight: 400;
     margin-top: 7px;
-    
+    display: block;
+    text-align: left;
     letter-spacing: 1.5px;
     /* border: red 1px solid; */
 }
@@ -700,43 +720,201 @@ button:focus {
     top: -8px;
     left: 4%;
     width: 92%;
-    height: 145px;
-    background-color: #122940;
+    height: 148px;
+    /* background-color: #122940; */
     color: black;
-    /* display: flex;
-    flex-direction: row;
-    justify-content: space-around; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-.myScore {
-    width: 50%;
-    background-color:#122940;
-    color: #E7BB2A;
+.score-box-header {
+    /* border: 1px rgb(248, 3, 3) solid; */
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.score-box-header-left {
+    font-family: 'Futura Light';
+    font-weight: bolder;
+    font-size: 9px;
+    letter-spacing: 1px;
+    background-color: #23ABB1;
+    width: 40px;
     display: block;
     text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
-.theirScore {
+.score-box-header-right {
+    font-family: 'Futura Light';
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: 1px;
+    background-color: #23ABB1;
+    width: 40px;
+    display: block;
+    text-align: center;
+}
+
+.score-box-body {
+    height: 133px;
+    /* border: 1px rgb(52, 248, 3) solid; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.score-box-body-left {
+    height: 100%;
     width: 50%;
     background-color: #E7BB2A;
-    color: #122940;
+    /* border: 1px rgb(248, 3, 3) solid; */
+}
+.score-box-body-right {
+    height: 100%;
+    width: 50%;
+    background-color: #122940;
+    /* border: 1px rgb(248, 3, 3) solid; */
+}
+.score-box-body-left-top {
+    height: 98px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+.score-box-body-right-top {
+    height: 98px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.score-num-1 {
     display: block;
     text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    color: white;
+    font-size: 45px;
+    font-family: 'Futura Light';
+    font-weight: bolder;
 }
+.score-num-2 {
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 45px;
+    font-family: 'Futura Light';
+    font-weight: bolder;
+}
+
+.score-box-body-left-bottom {
+    height: 30px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+}
+.score-box-body-right-bottom {
+    height: 30px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+}
+
+.team-1-member-1-box,
+.team-1-member-2-box {
+    height: 13px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.team-2-member-1-box,
+.team-2-member-2-box {
+    height: 13px;
+    /* border: 1px rgb(248, 3, 3) solid; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.team-1-member-1,
+.team-1-member-2 {
+    margin-left: 10px;
+    font-size: 9px;
+    color: #122940;
+    font-family: 'Futura Light';
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.team-2-member-1,
+.team-2-member-2 {
+    margin-left: 10px;
+    font-size: 9px;
+    color: #E7BB2A;
+    font-family: 'Futura Light';
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.team-1-member-1-symbol, 
+.team-1-member-2-symbol,
+.team-2-member-1-symbol,
+.team-2-member-2-symbol {
+    color: white;
+    font-size: 9px;
+    margin-right: 5px;
+    font-family: 'Futura Light';
+}
+
+
+
+
+
 
 /* --------------------- blurb --------------------- */
 .blurb-box {
-    width: 100%;
+    width: 97%;
     height: 120px;
     margin-bottom: 5px;
     z-index: 1;
-    display: inline-block;
     border: 1px rgb(0, 0, 0) solid;
 }
-
-.blurb {
-    font-size: 8.5px;
-    font-family: 'Futura Light';
+.blurb-top-box {
+    position: relative;
+    z-index: 2;
+    top: -6.5px;
+    left: -3px;
+    width: 123px;
+    height: 70px;
+    overflow: visible;
+    background: #23ABB1;
+}
+.blurb-top-text {
+    position: relative;
+    z-index: 3;
+    font-size: 8px;
+    font-family: 'Futura Italic';
+    font-weight: 800;
+    width: 130px;
+    letter-spacing: .5px;
+}
+.blurb-bottom-box {
+    position: relative;
+    z-index: 2;
+    bottom: 12px;
+    right: -80px;
+    width: 70px;
+    height: 70px;
+    overflow: visible;
+    background: #23ABB1;
+    /* background: red; */
+}
+.blurb-bottom-text {
+    display: block;
+    text-align: right;
+    position: relative;
+    z-index: 3;
+    left: -80px;
+    top: 3px;
+    font-size: 8px;
+    font-family: 'Futura Italic';
+    font-weight: 800;
+    width: 150px;
+    letter-spacing: .5px;
 }

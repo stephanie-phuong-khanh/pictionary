@@ -19,7 +19,7 @@
                                 <% } else { %>
                                 <div class='error-message'><%= errorName %></div>
                             <%}%>
-                            <input type='text' name='name' id='name' style='width: 200px; height:35px' autofocus/>
+                            <input type='text' name='name' id='name' style='width: 200px; height:35px' autofocus maxlength="10"/>
                         </div>
                         <div class='join-game entry-button'>
                             <label>Code: </label><br>
@@ -27,7 +27,7 @@
                                 <% } else { %>
                                     <div class='error-message'><%= errorCode %></div>
                             <%}%>
-                            <input type='text' name='codeNumber' id='codeNumber' style='width: 200px; height:35px' autofocus/>
+                            <input type='text' name='codeNumber' id='codeNumber' style='width: 200px; height:35px' autofocus maxlength="4"/>
                         </div>
                         <div class='entry-button'>
                             <button>Join</button>

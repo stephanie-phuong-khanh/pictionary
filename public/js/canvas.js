@@ -8,15 +8,6 @@ var mouseIsDown = false;
 var dragging = false;
 var radius = 1;
 
-document.onmousedown = function() { 
-    if (turn !== 'DRAWING') { return; }
-    mouseIsDown = true;
-}
-document.onmouseup = function() {
-    if (turn !== 'DRAWING') { return; }
-    mouseIsDown = false;
-}
-
 socket.on('clientEngage', (coordinates) => {
     dragging = true;
     context.arc(coordinates.x, coordinates.y, radius, 0, Math.PI*2);
@@ -24,13 +15,11 @@ socket.on('clientEngage', (coordinates) => {
     context.fill();
     context.moveTo(coordinates.x, coordinates.y);
 });
-
 socket.on('clientDisengage', (coordinates) => {
     //console.log('CLIENT DISENGAGE!');
     dragging = false;
     context.beginPath();
 });
-
 socket.on('clientDraw', (coordinates) => {
     if (dragging) {
         console.log(coordinates.x, coordinates.y);
@@ -50,11 +39,30 @@ socket.on('clientDraw', (coordinates) => {
         context.moveTo(coordinates.x, coordinates.y);
     }
 });
-
 socket.on('clearCanvas', function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 });
 
+
+socket.on('externalMouseDown', function() {
+    console.log('EXTERNAL MOUSE down');
+    mouseIsDown = true;
+});
+socket.on('externalMouseUp', function() {
+    console.log('EXTERNAL MOUSE UP');
+    mouseIsDown = false;
+})
+
+document.onmousedown = function() { 
+    if (turn === 'DRAWING') { 
+        socket.emit('mouseDown');
+    }
+}
+document.onmouseup = function() {
+    if (turn === 'DRAWING') { 
+        socket.emit('mouseUp');
+    }
+}
 canvas.addEventListener('mousedown', (e) => {
     if (turn !== 'DRAWING') { return; }
     socket.emit('engage', {
@@ -82,7 +90,6 @@ canvas.addEventListener ('mouseout', () => {
 });
 
 canvas.addEventListener ('mouseenter', (e) => {
-    //console.log('MouseEnter');
     if (turn !== 'DRAWING') { return; }
     if (mouseIsDown) {
         socket.emit('engage', {

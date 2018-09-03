@@ -1,6 +1,6 @@
 const path = require('path');
 const bodyParser = require('body-parser');
-const hbs = require ('express-handlebars');
+const favicon = require('serve-favicon');
 const Mustache = require('mustache');
 const express = require('express');
 const app = express(); 
@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({extend:true}));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
+app.use(favicon(path.join(__dirname,'.././public/images/favicon.ico')));
 const port = process.env.PORT || 3000;
 
 var games = new Games();
@@ -77,6 +78,21 @@ app.post('/join-game', (req, res) => {
     res.redirect(`/canvas.html?name=${req.body.name}&game=${req.body.codeNumber}`);
 });
 
+app.get('/end-game', (req, res) => {
+    var passedVariable = req.query.result;
+    var resultText = "LET'S PLAY!";
+    //resultText = JSON.parse(JSON.stringify(resultText));
+    console.log(typeof(resultText));
+    if (passedVariable==='loss') {
+        resultText="SO CLOSE!";
+    } else if (passedVariable==='win') {
+        resultText="YOU WIN!";
+    } else if (passedVariable==='tie') {
+        resultText="IT'S A TIE!";
+    }
+    res.render('./../public/end-game.html', {message : resultText});
+});
+
 io.on('connection', function (socket) {
     console.log('User connected');
 
@@ -118,6 +134,8 @@ io.on('connection', function (socket) {
         console.log('Successfully joined game', params.game);
     });
 
+    /* ------------------- GAME PLAY ------------------- */
+
     function newRound(roomID) {
         if (!games.getGame(roomID) || games.getGame(roomID).gamePlayers.length != 4) {
             return io.to(roomID).emit('errorMessage', 'Oops! There was a problem with the game. Try again!');
@@ -131,7 +149,6 @@ io.on('connection', function (socket) {
         }
         io.to(roomID).emit('clearCanvas');
 
-        games.increaseTurn(roomID);
         emitTurns(roomID);
 
         var word = games.newWord(roomID);
@@ -140,7 +157,7 @@ io.on('connection', function (socket) {
         return roundLife(roomID);
     }
     function roundLife(roomID) {
-        var seconds = 20;
+        var seconds = 30;
         function countdown () {
             var currentTurn = games.getGame(roomID).turnNumber;
             var int = setInterval( function(){
@@ -156,6 +173,7 @@ io.on('connection', function (socket) {
                 seconds--;
                 if (seconds < 0) {
                     clearInterval(int);
+                    games.increaseTurn(roomID);
                     newRound(roomID);
                     return;
                 }
@@ -181,7 +199,10 @@ io.on('connection', function (socket) {
             var shiftedPlayerCounter = (playerCounter + turn) % 4;
             var playerID = playerObjArr[playerCounter].id;
             console.log('DKFJALSDFJKSAF', shiftedPlayerCounter);
-            io.to(playerID).emit('updateTurn', shiftedPlayerCounter);
+            io.to(playerID).emit('updateTurn', {
+                shiftedPlayerCounter,
+                turn
+            });
         }
     };
 
@@ -197,7 +218,7 @@ io.on('connection', function (socket) {
                 guess: guessObj,
                 correctness: true
             });
-            // games.increaseTurn(user.room);
+            games.increaseTurn(user.room);
             setTimeout(() => {
                 var team = undefined;
                 var gamePlayers = games.getGame(user.room).gamePlayers;
@@ -227,6 +248,16 @@ io.on('connection', function (socket) {
         }
     });
         
+
+    /* ----------------- CANVAS -----------------*/
+    socket.on('mouseDown', function() {
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('externalMouseDown');
+    });
+    socket.on('mouseUp', function() {
+        var user = users.getUser(socket.id);
+        io.to(user.room).emit('externalMouseUp');
+    });
     socket.on('engage', function (coordinates) {
         var user = users.getUser(socket.id);
         io.to(user.room).emit('clientEngage', (coordinates));
