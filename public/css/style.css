@@ -251,7 +251,7 @@ button:focus {
 }
 .middle-div {
     max-width: 750px;
-    height: 100%;
+    height: 500px;
     margin: 0 auto 0 auto;
     display: flex;
     flex-direction: row;
