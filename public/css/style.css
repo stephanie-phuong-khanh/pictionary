@@ -139,58 +139,57 @@ button:focus {
 
 
 .modal{
-    visibility: hidden;
     position: fixed;
-    z-index:1;
+    z-index: 3;
     left: 0;
     top: 0;
     height: 100%;
     width: 100%;
     /* overflow: auto; */
-    background-color: rgba(8, 8, 8, 0.671);
+    background-color: rgba(8, 8, 8, 0.788);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.lobby {
-    width: 80%;
-    height: 80%;
-    margin: auto auto;
-    background-color: rgb(250, 240, 185);
-    box-shadow: 0 0 30px 0 rgba(211, 208, 208, 0.322);
+.lobby-box-outside {
+    z-index: 3;
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.lobby-box-outline {
+    position: relative;
+    border: 1px white solid;
+    height: 60vh;
+    width: 70%;
+    z-index: 4;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.lobby-inside {
+    position: relative;
+    z-index: 5;
+    top: -5vh;
+    left: 5%; 
+    width: 90%;
+    height: 70vh;
+    background-color:#24AE69;
+    /* box-shadow: 0 0 20px 0 rgba(255, 254, 254, 0.178); */
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
-
-/* .lobby-inside {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.lobby-box {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    color: rgb(37, 29, 2);
-    font-family: futura;
-    margin: auto 10%;
-    border: 1px white dotted;
-} */
 
 .lobby-text {
-    padding: 20% 20%;
-    font-style: bold;
-    font-size: 20px;
-    letter-spacing: 2px;
+    display: block;
+    width: auto;
+    font-size: 2.5vw;
+    letter-spacing: .2vw;
     text-align: center;
-    color: rgb(37, 29, 2);
+    color: white;
 }
 .loader__dot:nth-child(1){
     margin-left: -8px;
@@ -226,16 +225,6 @@ button:focus {
     width: 100%;
 }
 
-.close-modal {
-    opacity: 0.2;
-    padding: 10px 15px 10px 15px;
-    width: fit-content;
-    background-color: rgb(37, 29, 2);
-    text-align: center;
-    font-size: 15px;
-    color: white;
-    margin: 0px 50px 20px auto;
-}
 
 
 /* --------------------- PAGE --------------------- */
@@ -254,11 +243,11 @@ button:focus {
     margin: 0px 0px;
     padding: 0px 0px;
     background-color: #23ABB1;
-    /* filter: blur(4px);
+    filter: blur(4px);
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px);
     -o-filter: blur(4px);
-    -ms-filter: blur(4px); */
+    -ms-filter: blur(4px);
 }
 .middle-div {
     max-width: 750px;

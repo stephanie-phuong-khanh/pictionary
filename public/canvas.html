@@ -9,13 +9,17 @@
 
    <body>
         <div id="modal" class="modal">
-            <div id='lobby' class='lobby'>
-                <div class='lobby-text' id='lobby-text'>WAITING FOR ALL PLAYERS TO JOIN
-                    <span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>
+            <div class='lobby-box-outside'>
+                <div class='lobby-box-outline'>
+                    <div id='lobby-inside' class='lobby-inside'>
+                        <div class='lobby-text' id='lobby-text'>Waiting for all players to join
+                            <span class="loader__dot">.</span><span class="loader__dot">.</span><span class="loader__dot">.</span>
+                        </div>
+                        <!-- <div class='lobby-inside'>
+                            <div class='lobby-box'></div>
+                        </div> -->
+                    </div>
                 </div>
-                <!-- <div class='lobby-inside'>
-                    <div class='lobby-box'></div>
-                </div> -->
             </div>
         </div>
         
@@ -38,7 +42,7 @@
                                 <div class='guess-form-body-border'>
                                 <div class='guess-form-body-inside'>
                                     <ol id='guess-list' class='guess-list'>
-                                        <li class='guess'>
+                                        <!-- <li class='guess'>
                                             <div class='guess-text'>
                                                 <div class='guess-text-word' id='guess-text-word'>shoelace</div>
                                                 <div class='guess-text-correctness' id='guess-text-correctness'>X</div>
@@ -49,7 +53,7 @@
                                                 <div class='guess-text-word'>kite</div>
                                                 <div class='guess-text-correctness'>X</div>
                                             </div>
-                                        </li>
+                                        </li> -->
                                     </ol>
                                     <div class='guess-form-footer' id='guess-form-footer'>
                                         <form id='guess-form' class='guess-form'>

@@ -45,18 +45,6 @@ socket.on('finishedGame', function(winner) {
 socket.on('playerJoined', function(numberOfPlayers) {
     console.log('Number of current players:', numberOfPlayers);
 });
-document.addEventListener('closeModal', function () {
-    console.log('All players joined');
-    //document.getElementById('close-modal').style.opacity = '1';
-    document.getElementById('modal').style.display = 'none';
-    jQuery('.page').css({
-        'filter': 'blur(0px)',
-        '-webkit-filter': 'blur(0px)',
-        '-moz-filter': 'blur(0px)',
-        '-o-filter': 'blur(0px)',
-        '-ms-filter': 'blur(0px)'
-    });
-});
 socket.on('allPlayersJoined', function (gameObj) {
     for (var i=0; i<gameObj.gamePlayers.length; i++) {
         lobbyNames.push(gameObj.gamePlayers[i].name);
@@ -70,17 +58,22 @@ socket.on('allPlayersJoined', function (gameObj) {
                     team=2; break;
             }
         }
-        //console.log('LOBBY NAME:', lobbyNames[i]);
     }
     document.querySelector('#team-1-member-1').innerHTML = lobbyNames[0];
     document.querySelector('#team-2-member-1').innerHTML = lobbyNames[1];
     document.querySelector('#team-1-member-2').innerHTML = lobbyNames[2];
     document.querySelector('#team-2-member-2').innerHTML = lobbyNames[3];
-    document.querySelector('#lobby-text').innerHTML = 'READY TO START GAME';
-    //gameReady = true;
+    document.querySelector('#lobby-text').innerHTML = 'Ready to start game!';
     setTimeout(() => {
-        var evt = new CustomEvent('closeModal');
-        document.dispatchEvent(evt);
+        console.log('All players joined');
+        document.getElementById('modal').style.display = 'none';
+        jQuery('.page').css({
+            'filter': 'blur(0px)',
+            '-webkit-filter': 'blur(0px)',
+            '-moz-filter': 'blur(0px)',
+            '-o-filter': 'blur(0px)',
+            '-ms-filter': 'blur(0px)'
+        });
         console.log('After 3 seconds...');
     }, 3000);
  });
