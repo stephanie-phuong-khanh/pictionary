@@ -236,7 +236,9 @@ button:focus {
 
 
 .page {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     /* border: rgba(235, 4, 215, 0) 2px dotted; */
     height: 100%;
     width: 100%;
@@ -250,7 +252,7 @@ button:focus {
     -ms-filter: blur(4px);
 }
 .middle-div {
-    max-width: 750px;
+    width: 750px;
     height: 500px;
     margin: 0 auto 0 auto;
     display: flex;
