@@ -10,11 +10,19 @@
     font-family: 'Futura Italic';
     src: url('./futura/futura-book-italic.ttf');
 }
+@font-face {
+    font-family: 'Futura';
+    src: url('./futura/futura.ttf');
+}
+@font-face {
+    font-family: 'Futura Medium';
+    src: url('./futura/futura-medium.ttf');
+}
 
 * { 
     margin: 0;
     padding: 0;
-    font-family: futura;
+    font-family: 'Futura Medium';
 }
  body, html{
     margin: 0;
@@ -109,7 +117,6 @@ button:focus {
 .codeNum {
     margin-left: 10px;
     color: black;
-    font-style: italic;
 }
 
 .new-game-game-title {
@@ -288,7 +295,7 @@ button:focus {
     top: -12px;
     letter-spacing: 5px;
     font-size: 35px;
-    font-family: futura;
+    font-family: 'Futura Medium';
     width: 100%;
     text-align: center;
 }
