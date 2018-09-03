@@ -9,11 +9,11 @@ var dragging = false;
 var radius = 1;
 
 document.onmousedown = function() { 
-    //console.log('THIS MOUSE IS DOWN');
+    if (turn !== 'DRAWING') { return; }
     mouseIsDown = true;
 }
 document.onmouseup = function() {
-    //console.log('not down!!');
+    if (turn !== 'DRAWING') { return; }
     mouseIsDown = false;
 }
 
@@ -51,7 +51,12 @@ socket.on('clientDraw', (coordinates) => {
     }
 });
 
+socket.on('clearCanvas', function() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+});
+
 canvas.addEventListener('mousedown', (e) => {
+    if (turn !== 'DRAWING') { return; }
     socket.emit('engage', {
         x: e.offsetX,
         y: e.offsetY
@@ -59,10 +64,12 @@ canvas.addEventListener('mousedown', (e) => {
 });
 
 canvas.addEventListener('mouseup', () => {
+    if (turn !== 'DRAWING') { return; }
     socket.emit('disengage');
 });
 
 canvas.addEventListener('mousemove', (e) => {
+    if (turn !== 'DRAWING') { return; }
     socket.emit('draw', {
         x: e.offsetX,
         y: e.offsetY
@@ -70,11 +77,13 @@ canvas.addEventListener('mousemove', (e) => {
 });
 
 canvas.addEventListener ('mouseout', () => {
+    if (turn !== 'DRAWING') { return; }
     socket.emit('disengage');
 });
 
 canvas.addEventListener ('mouseenter', (e) => {
     //console.log('MouseEnter');
+    if (turn !== 'DRAWING') { return; }
     if (mouseIsDown) {
         socket.emit('engage', {
             x: e.offsetX,

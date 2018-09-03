@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Futura Light';
+    src: url('./futura/futura-light.ttf');
+}
+
 * { 
     margin: 0;
     padding: 0;
@@ -116,6 +121,7 @@ button:focus {
 
 
 .modal{
+    visibility: hidden;
     position: fixed;
     z-index:1;
     left: 0;
@@ -123,23 +129,24 @@ button:focus {
     height: 100%;
     width: 100%;
     /* overflow: auto; */
-    background-color: rgba(8, 8, 8, 0.336);
+    background-color: rgba(8, 8, 8, 0.671);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
 .lobby {
-    width: 100%;
-    height: auto;
+    width: 80%;
+    height: 80%;
     margin: auto auto;
     background-color: rgb(250, 240, 185);
+    box-shadow: 0 0 30px 0 rgba(211, 208, 208, 0.322);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.lobby-inside {
+/* .lobby-inside {
     width: 100%;
     height: auto;
     display: flex;
@@ -156,18 +163,24 @@ button:focus {
     color: rgb(37, 29, 2);
     font-family: futura;
     margin: auto 10%;
-    /* border: 1px white dotted; */
-}
+    border: 1px white dotted;
+} */
 
 .lobby-text {
+    padding: 20% 20%;
     font-style: bold;
     font-size: 20px;
     letter-spacing: 2px;
     text-align: center;
     color: rgb(37, 29, 2);
-    margin-top: 20px;
-    margin-bottom: 5px;
 }
+.loader__dot:nth-child(1){
+    margin-left: -8px;
+}
+@keyframes blink {50% { color: transparent }}
+.loader__dot { animation: 1s blink infinite }
+.loader__dot:nth-child(2) { animation-delay: 250ms }
+.loader__dot:nth-child(3) { animation-delay: 500ms }
 
 .player-avatar img{   
     height: 150px;
@@ -207,23 +220,27 @@ button:focus {
 }
 
 
-
-/* --------------------- CANVAS --------------------- */
+/* --------------------- PAGE --------------------- */
+/* --------------------- PAGE --------------------- */
+/* --------------------- PAGE --------------------- */
+/* --------------------- PAGE --------------------- */
+/* --------------------- PAGE --------------------- */
+/* --------------------- PAGE --------------------- */
 
 
 .page {
     display: block;
-    border: rgba(235, 4, 215, 0) 2px dotted;
+    /* border: rgba(235, 4, 215, 0) 2px dotted; */
     height: 100%;
     width: 100%;
     margin: 0px 0px;
     padding: 0px 0px;
     background-color: #23ABB1;
-    filter: blur(4px);
+    /* filter: blur(4px);
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px);
     -o-filter: blur(4px);
-    -ms-filter: blur(4px);
+    -ms-filter: blur(4px); */
 }
 .middle-div {
     max-width: 750px;
@@ -234,84 +251,461 @@ button:focus {
     justify-content: space-between;
     border: white 1px dotted;
 }
-.column-1 {
-    border: 2px rgb(198, 241, 7) dotted;
-    width: 30%;
-    height: 100%;
-    display: block;
-}
+
+
+/* --------------------- MIDDLE COLUMN --------------------- */
+/* --------------------- MIDDLE COLUMN --------------------- */
+/* --------------------- MIDDLE COLUMN --------------------- */
+/* --------------------- MIDDLE COLUMN --------------------- */
+
 .column-2 {
     width: 50%;
     height: 100%;
+    border: 1px rgb(198, 241, 7) dotted;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
-.column-3 {
-    display: block;
-    text-align: center;
-    width: 20%;
-    height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: blue 1px dotted;
+.column-2-inside {
+    width: 100%;
+    height: 90%;
+    border: 1px rgb(241, 54, 7) dotted;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .pictionary-title {
-    color:#122940;
+    position: relative;
+    top: -12px;
     letter-spacing: 5px;
     font-size: 35px;
     font-family: futura;
     width: 100%;
     text-align: center;
-    margin: 10px 3px;
 }
 #canvas-container {
-    box-shadow: 0 0 30px 0 rgba(211, 208, 208, 0.541);
+    /* box-shadow: 0 0 30px 0 rgba(211, 208, 208, 0.541); */
     background-color: white;
-    margin: 0 auto;
-    width: 350px;
-    height: 400px;
+    margin: 0 auto 0px auto;
+    width: 90%;
+    height: 90%;
     text-align: center;
 }
 #canvas {
     margin: 0 auto;
 }
-.turn-text {
+
+
+
+/* --------------------- LEFT COLUMN --------------------- */
+/* --------------------- LEFT COLUMN --------------------- */
+/* --------------------- LEFT COLUMN --------------------- */
+/* --------------------- LEFT COLUMN --------------------- */
+
+.column-1 {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px rgb(198, 241, 7) dotted;
+}
+.column-1-inside {
+    width: 80%;
+    height: 90%;
+    margin: 0 auto 0 auto;
+    /* border: 1px rgb(241, 54, 7) dotted; */
+}
+.column-1-inside-inside {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border: 1px rgb(241, 7, 210) dotted; */
+}
+.word-box {
+    border: 1px black solid;
+    width: 100%;
+    height: 14%;
+}
+.word-box-inside {
+    position: relative;
+    z-index: 1;
+    top: 5px;
+    left: 3%;
+    width: 94%;
+    height: 105%;
+    background-color: #F04A50;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.word-box-inside-inside {
+    height: auto;
     width: 100%;
     display: block;
     text-align: center;
-    color: #122940;
-    font-size: 30px;
-    margin-top: 12px;
+    margin: 0 auto;
+    /* border: green 2px dotted; */
+}
+.word-sentence {
+    display: block;
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Futura Light';
+    font-size: 12px;
+    letter-spacing: 1px;
+    /* border: blue 2px dotted; */
+}
+.word {
+    position: relative;
+    top: 3px;
+    height: auto;
+    font-size: 2vw;
+    letter-spacing: 3px;
+    color: #ffffff;
+    display: inline;
+}
+
+
+/*--------------------- SCROLLABLE GUESS BAR --------------------- */
+
+.guess-form-body {
+    height: 78%;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    /* border: 1px rgb(125, 248, 238) dotted; */
+}
+.guess-form-body-border {
+    height: 97%;
+    width: 93%;
+    z-index: 1;
+    white-space: nowrap;
+    display: inline-block;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+    border: 1px rgb(0, 0, 0) solid;
+}
+.guess-form-body-inside {
+    position: relative;
+    z-index: 2;
+    top: 8px;
+    left: 8px;
+    height: 100%;
+    width: 102%;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.guess-list {
+    /* border: 2px plum solid; */
+    flex-grow: 1;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px;
+    list-style: none;
+    background-color: #E7BB2A;
+}
+.guess-form-footer {
+    
+    /* border: blue 1px solid; */
+    height: 35px;
+    width: 100%;
+    /* border: 2px red dotted; */
+}
+.guess-form {
+    height: 100%;
+    width: 100%;
+    background-color: #122940;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.guess-input{
+    margin-top: 5%;
+    margin-left: 4%;
+    height: 59%;
+    width: 65%;
+    padding-left: 5%;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    border-style: none;
+}
+.guess-button {
+    margin-top: 5%;
+    margin-right: 3.5%;
+    font-family: playfair display;
+    font-weight: 100;
+    text-align: center;
+    height: 59%;
+    width: 14%;
+    background:#E7BB2A;
+    border: none;
+}
+.guess-text {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.76);
+    margin-bottom: 8%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.guess-text-word {
+    font-family: 'Futura Light';
+    font-weight: 900;
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 8%;
+    opacity: 50%;
+    display: inline-block;
+    width: 100%;
+    overflow-wrap: break-word;
+}
+.guess-text-correctness {
+    height: 100%;
+    width: 20%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-family: 'Futura Light';
+    font-weight: 100;
+    font-size: 10.5px;
+    display: block;
+    text-align: center;
+    color: white;
+    background-color: rgb(212, 6, 6);
+}
+
+
+/* --------------------- SECOND OPTION --------------------- */
+.guess-form-footer-2 {
+    display: none;
+    height: 32px;
+    width: 100%;
+    background-color: #122940;
+    /* border: 2px red dotted; */
+}
+.guess-form-inside-2 {
+    font-family: 'Futura Light';
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: .3px;
+    line-height: 18px;
+    background-color: rgba(255, 255, 255, 0.884);
+    width: 90%;
+    height: 65%;
+    margin-top: 3.5%;
+    margin-bottom: 3.5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-top: 1%;
+    display: block;
+    text-align: center;
+    opacity: 50%;
+    display: inline-block;
+}
+
+
+/* --------------------- THIRD OPTION --------------------- */
+.guess-form-footer-3 {
+    display:none;
+    height: 32px;
+    width: 100%;
+    background-color: #122940;
+}
+.guess-form-inside-3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgba(255, 255, 255, 0.884);
+    width: 90%;
+    height: 65%;
+    margin-top: 3.5%;
+    margin-bottom: 3.5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-top: 1%;
+}
+.guess-form-inside-3-left {
+    font-family: 'Futura Light';
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: .3px;
+    line-height: 18px;
+    display: block;
+    text-align: center;
+    margin-left: 5%;
+}
+.guess-form-inside-3-mid {
+    font-family: 'Futura Light';
+    font-weight: 900;
+    font-size: 8px;
+    line-height: 10px;
+    margin-top: -1%;
+    margin-left: 1%;
+    margin-right: 1%;
+    display: block;
+    text-align: center;
+}
+.guess-form-inside-3-right {
+    font-family: 'Futura Light';
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: .3px;
+    line-height: 18px;
+    display: block;
+    text-align: center;
+    margin-right: 5%;
+}
+
+
+/* --------------------- RIGHT COLUMN --------------------- */
+/* --------------------- RIGHT COLUMN --------------------- */
+/* --------------------- RIGHT COLUMN --------------------- */
+/* --------------------- RIGHT COLUMN --------------------- */
+
+.column-3 {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px rgb(198, 241, 7) dotted;
+}
+
+.column-3-inside {
+    width: 80%;
+    height: 90%;
+    margin: 0 auto 0 auto;
+    border: 1px rgb(241, 54, 7) dotted;
+}
+.column-3-inside-inside {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px rgb(241, 7, 210) dotted;
+}
+
+/* --------------------- time/round --------------------- */
+
+.time-round-box {
+    margin-top: 8px;
+    width: 100%;
+    height: 90px;
+    z-index: 1;
+    display: inline-block;
+    border: 1px rgb(0, 0, 0) solid;
 }
 
 .time-box {
-    width: 80px;
-    padding-left: 25px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #F04A50;
+    position: relative;
+    z-index: 2;
+    top: -8px;
+    left: 4%;
+    width: 92%;
+    height: 60px;
+    background-color: #122940;
+    color: white;
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    justify-content: space-around;
 }
-.time-text {
-    font-size: 10px;
-    margin-left: 5px;
-    margin-top: 3px;
-    letter-spacing: 1px;
+.time-box-inside {
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .time {
-    font-size: 25px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: white;
+    font-family: 'Futura Light';
+    font-size: 230%;
+    font-weight: bolder;
+    letter-spacing: 0px;
+    
+    /* border: red 1px solid; */
 }
-.score-box {
+.time-text {
+    font-size: 80%;
+    font-family: 'Futura Light';
+    font-weight: 400;
+    margin-top: 7px;
+    
+    letter-spacing: 1.5px;
+    /* border: red 1px solid; */
+}
+
+.round-box {
+    position: relative;
+    z-index: 2;
+    bottom: 0px;
+    left: 4%;
+    width: 92%;
+    height: 40%;
+    font-size: 16px;
     display: flex;
     flex-direction: row;
-    width: 105px;
-    font-size: 35px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+}
+.round-box-text {
+    font-weight: 100;
+    color: black;
+    background-color: #F04A50;
+    letter-spacing: 4px;
+    width: 100%;
+    height: 30px;
+    padding-top: 5%;
+    padding-left: 5%;
+    text-align: center;
+}
+.round-box-number {
+    background-color: white;
+    color: black;
+    font-weight: 800;
+    width: 30%;
+    text-align: center;
+    height: 30px;
+    padding-top: 5%;
+    text-align: center;
+}
+
+
+
+
+
+
+/* --------------------- score --------------------- */
+
+.score-box {
+    width: 100%;
+    height: 130px;
+    z-index: 1;
+    display: inline-block;
+    border: 1px rgb(0, 0, 0) solid;
+}
+.score-box-inside {
+    position: relative;
+    /* z-index: 2; */
+    top: -8px;
+    left: 4%;
+    width: 92%;
+    height: 145px;
+    background-color: #122940;
+    color: black;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-around; */
 }
 .myScore {
     width: 50%;
@@ -332,45 +726,17 @@ button:focus {
     padding-bottom: 5px;
 }
 
-
-
-
-
-/* --------------------- SCROLLABLE GUESS BAR --------------------- */
-
-.guess-list {
-    /* border: 2px plum solid; */
-    flex-grow: 1;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px;
-    list-style: none;
-}
-.guess-form-footer {
-    height: 30px;
-    margin-bottom: 5%;
+/* --------------------- blurb --------------------- */
+.blurb-box {
     width: 100%;
-    /* border: 2px red dotted; */
+    height: 120px;
+    margin-bottom: 5px;
+    z-index: 1;
+    display: inline-block;
+    border: 1px rgb(0, 0, 0) solid;
 }
-.guess-form-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%
-}
-.guess-form {
-    height: 20px;
-}
-.guess {
-    max-width: 80%;
-    font-size: 18px;
-}
-.guess-button {
-    font-family: playfair display;
-    text-align: center;
-    height: 25px;
-    width: 30px;
-    margin-top: 0;
-    background:whitesmoke;
-    border: none;
+
+.blurb {
+    font-size: 8.5px;
+    font-family: 'Futura Light';
 }

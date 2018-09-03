@@ -25,12 +25,12 @@ class Games {
         this.games.push(game);
         return game;
     }
-    addPlayer (room, addedPlayer) {
+    addPlayer (room, addedPlayerObj) {
         var game = this.getGame(room);
         if (game.gamePlayers.length < 4) {
-            game.gamePlayers.push(addedPlayer);
+            game.gamePlayers.push(addedPlayerObj);
         } else {return undefined;} //room is full
-        return addedPlayer;
+        return addedPlayerObj;
     }
     getGame (room) { //returns game
         return this.games.filter((game) => game.room === room)[0];
@@ -66,12 +66,12 @@ class Games {
         }
         return -1;
     }
-    removeUserFromGame (room, player) { //what if single player leaves tho?
+    removeUserFromGame (room, playerID) {
         var game = this.getGame(room); //returns game
         if (game) {
             if (game.gamePlayers.length > 1) {
                 var changedGame = this.getGame(room); //game
-                changedGame.gamePlayers = changedGame.gamePlayers.filter((gamePlayer) => gamePlayer !== player);
+                changedGame.gamePlayers = changedGame.gamePlayers.filter((gamePlayer) => gamePlayer.id !== playerID);
                 this.games = this.games.filter((game) => game.room !== room);
                 this.games.push(changedGame);
             } else { //last player --> compelely remove game
@@ -80,6 +80,7 @@ class Games {
         }
     }
     deleteGame (room) {
+        console.log('DELETING GAME');
         var game = this.getGame(room);
         if (room) {
             return this.games = this.games.filter((game) => game.room !== room);
@@ -87,10 +88,12 @@ class Games {
         return 0;
     }
     increaseTurn (room) {
+        console.log('Increase Turn function called');
         for (var i=0; i<this.games.length; i++) {
             if (this.games[i].room === room) { 
-                this.games[i].turn++; 
-                return this.games[i].turn;
+                this.games[i].turnNumber++; 
+                console.log('Turn:', this.games[i].turnNumber);
+                return this.games[i].turnNumber;
             }
         }
         return undefined;
@@ -98,16 +101,13 @@ class Games {
     /*
     *       GAME PLAY FUNCTIONS
     */
-    newRound (room) {   //pass in room ID
-        
-        if (turnNumber) {
-            turnNumber = 0; //very first turn
-        } else { turnNumber++; }
-        var gameAtHand = this.getGame(room);
-        for (var i=0; i<gameAtHand.gamePlayers.length; i++) {
-            //use turn number:   turnNumber%4
-            if (gameAtHand.gamePlayers[i].turn === 0) { //very first round --> maybe put in newGame function...?
-                //this.getGame(room).gamePlayers[0]
+    newWord (room) {
+        for (var i=0; i<this.games.length; i++) {
+            if (this.games[i].room === room) { 
+                this.games[i].words.newWordObject(); 
+                var newWord = this.games[i].words.getLatestWord();
+                console.log('New word:', newWord);
+                return newWord;
             }
         }
     }
