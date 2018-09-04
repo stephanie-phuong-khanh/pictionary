@@ -74,6 +74,20 @@
     text-align: center;
 }
 
+.name {
+    width: 200px; 
+    height:35px; 
+    border: none;
+    padding-left: 10px;
+}
+
+.codeNumber {
+    width: 200px; 
+    height:35px; 
+    border: none;
+    padding-left: 10px;
+}
+
 .entry-button button{
     font-size: 15px;
     padding: 10px 10px;
@@ -428,7 +442,6 @@ button:focus {
     background-color: #E7BB2A;
 }
 .guess-form-footer {
-    
     /* border: blue 1px solid; */
     height: 35px;
     width: 100%;
@@ -683,7 +696,7 @@ button:focus {
     letter-spacing: 4px;
     width: 100%;
     height: 30px;
-    padding-top: 5%;
+    padding-top: 7.5%;
     padding-left: 5%;
     text-align: center;
 }
@@ -694,7 +707,7 @@ button:focus {
     width: 30%;
     text-align: center;
     height: 30px;
-    padding-top: 5%;
+    padding-top: 7.5%;
     text-align: center;
 }
 

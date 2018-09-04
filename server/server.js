@@ -37,7 +37,7 @@ app.get('/new-game', (req, res) => {
 });
 
 app.post('/new-game', (req, res) => {
-    console.log(req.body.name, req.body.codeNumber);
+    //(req.body.name, req.body.codeNumber);
     if (!isRealString(req.body.name)) {
         res.render('./../public/new-game.html', {
             codeNumber: tokenGenerate(),
@@ -45,7 +45,7 @@ app.post('/new-game', (req, res) => {
         });
         return;
     }
-    console.log(req.body.codeNumber);
+    //console.log(req.body.codeNumber);
     res.redirect(`/canvas.html?name=${req.body.name}&game=${req.body.codeNumber}`);
 });
 
@@ -54,7 +54,7 @@ app.get('/join-game', (req, res) => {
 });
 
 app.post('/join-game', (req, res) => {
-    console.log(req.body.name, req.body.codeNumber);
+    //(req.body.name, req.body.codeNumber);
     var nameValidity = null;
     var codeValidity = null;
     var okayName = null;
@@ -74,7 +74,7 @@ app.post('/join-game', (req, res) => {
         });
         return;
     }
-    console.log('Join Game -- successful!');
+    //console.log('Join Game -- successful!');
     res.redirect(`/canvas.html?name=${req.body.name}&game=${req.body.codeNumber}`);
 });
 
@@ -82,7 +82,7 @@ app.get('/end-game', (req, res) => {
     var passedVariable = req.query.result;
     var resultText = "LET'S PLAY!";
     //resultText = JSON.parse(JSON.stringify(resultText));
-    console.log(typeof(resultText));
+    //console.log(typeof(resultText));
     if (passedVariable==='loss') {
         resultText="SO CLOSE!";
     } else if (passedVariable==='win') {
@@ -94,10 +94,10 @@ app.get('/end-game', (req, res) => {
 });
 
 io.on('connection', function (socket) {
-    console.log('User connected');
+    //console.log('User connected');
 
     socket.on('join', (params, callback) => {
-        console.log('Attempt to join game', params.game);
+        //console.log('Attempt to join game', params.game);
         if (!isRealString(params.name) || !isRealCode(params.game)) {
             return callback('Invalid name and/or game code');
         }
@@ -130,8 +130,8 @@ io.on('connection', function (socket) {
                 newRound(params.game);
             }, 2000);
         };
-        console.log(users, games.getGame(params.game).gamePlayers);     //debugging purposes
-        console.log('Successfully joined game', params.game);
+        //console.log(users, games.getGame(params.game).gamePlayers);     //debugging purposes
+        //console.log('Successfully joined game', params.game);
     });
 
     /* ------------------- GAME PLAY ------------------- */
@@ -153,6 +153,8 @@ io.on('connection', function (socket) {
 
         var word = games.newWord(roomID);
         io.to(roomID).emit('updateWord', word);
+        io.to(roomID).emit('externalMouseUp');
+        io.to(roomID).emit('clientDisengage');
 
         return roundLife(roomID);
     }
@@ -185,7 +187,7 @@ io.on('connection', function (socket) {
         countdown();
     };
     function increaseScore(team, newScore, roomID) {
-        console.log('IncreaseScore function called');
+        //console.log('IncreaseScore function called');
         io.to(roomID).emit('updateScore', { team, newScore });
     }
     function emitTurns(roomID) {
@@ -198,7 +200,7 @@ io.on('connection', function (socket) {
         for (var playerCounter=0; playerCounter<playerObjArr.length; playerCounter++) {
             var shiftedPlayerCounter = (playerCounter + turn) % 4;
             var playerID = playerObjArr[playerCounter].id;
-            console.log('DKFJALSDFJKSAF', shiftedPlayerCounter);
+            //('DKFJALSDFJKSAF', shiftedPlayerCounter);
             io.to(playerID).emit('updateTurn', {
                 shiftedPlayerCounter,
                 turn
@@ -274,13 +276,13 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function () {
-        console.log('User disconnected');
+        //console.log('User disconnected');
         var user = users.getUser(socket.id);
         if (user) { 
             games.removeUserFromGame(user.room, socket.id);
         }
         users.removeUser(socket.id);
-        console.log(users, games); //debugging purposes
+        //console.log(users, games); //debugging purposes
     });
 });
 

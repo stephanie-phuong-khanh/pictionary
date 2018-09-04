@@ -43,7 +43,7 @@ socket.on('finishedGame', function(winner) {
 
 
 socket.on('playerJoined', function(numberOfPlayers) {
-    console.log('Number of current players:', numberOfPlayers);
+    //console.log('Number of current players:', numberOfPlayers);
 });
 socket.on('allPlayersJoined', function (gameObj) {
     for (var i=0; i<gameObj.gamePlayers.length; i++) {
@@ -65,7 +65,7 @@ socket.on('allPlayersJoined', function (gameObj) {
     document.querySelector('#team-2-member-2').innerHTML = lobbyNames[3];
     document.querySelector('#lobby-text').innerHTML = 'Ready to start game!';
     setTimeout(() => {
-        console.log('All players joined');
+        //console.log('All players joined');
         document.getElementById('modal').style.display = 'none';
         jQuery('.page').css({
             'filter': 'blur(0px)',
@@ -74,7 +74,7 @@ socket.on('allPlayersJoined', function (gameObj) {
             '-o-filter': 'blur(0px)',
             '-ms-filter': 'blur(0px)'
         });
-        console.log('After 3 seconds...');
+        //console.log('After 3 seconds...');
     }, 3000);
  });
 
@@ -122,7 +122,7 @@ socket.on('updateScore', function(obj){
     jQuery("#guess-list").empty();
     turn = turnArray[obj.shiftedPlayerCounter];
     document.querySelector('#round-box-number').innerHTML = Math.floor(obj.turn/2) + 1;
-    console.log(turn);
+    //console.log(turn);
 
     const symbols = ['✎', ' ', '?', ' '];
     document.querySelector('#team-1-member-1-symbol').innerHTML = symbols[(0+obj.turn)%4];
@@ -155,7 +155,7 @@ jQuery('#guess-form').on('submit', (e) => {
     const guess = jQuery("[name='guess-input']");
     const guessText = guess.val();
     if (typeof guessText === 'string' && guessText.trim().length>0) {
-        console.log(guessText);
+        //console.log(guessText);
         socket.emit('createGuess', {
             guess: guessText
         });
