@@ -80,7 +80,7 @@ class Games {
         }
     }
     deleteGame (room) {
-        console.log('DELETING GAME');
+        //console.log('DELETING GAME');
         var game = this.getGame(room);
         if (room) {
             return this.games = this.games.filter((game) => game.room !== room);

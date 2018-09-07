@@ -391,8 +391,7 @@ button:focus {
 .word {
     position: relative;
     top: 3px;
-    height: auto;
-    font-size: 2vw;
+    font-size: 20px;
     letter-spacing: 3px;
     color: #ffffff;
     display: inline;

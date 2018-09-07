@@ -23,7 +23,7 @@ class Words {
                     hintWord += "_";
                 }
                 hintWord = setCharAt(hintWord, letterHintIndex, word[letterHintIndex]);
-                console.log(hintWord);
+                //console.log(hintWord);
                 var wordObj = { word, hintWord };
                 this.wordArr.push(wordObj);
                 return wordObj ;
@@ -35,9 +35,6 @@ class Words {
         return this.wordArr[this.wordArr.length-1];
     }
 }
-
-var words = new Words;
-console.log(words.newWordObject());
 
 module.exports = {
     DICTIONARY,
